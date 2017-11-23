@@ -59,9 +59,10 @@ public class AI : Character {
         tracking.Add(incomingProjectile);
     }
 
+    /* // Another way I was experimenting with to check click detection
     private void OnMouseDown()
     {
         //When you click on the ai with left click, it tells your character to create a projectile that spawns next to you and moves toward the AI
         character.GetComponent<Character>().CreateProjectile(gameObject);
-    }
+    }*/
 }

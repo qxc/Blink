@@ -89,6 +89,17 @@ public class Character : MonoBehaviour {
     }
 
     void Update () {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+            if (hit != null && hit.collider != null)
+            {
+                CreateProjectile(hit.collider.gameObject);
+                //Debug.Log("I'm hitting " + hit.collider.name);
+            }
+        }
+
         if (Input.GetKeyDown("space"))
         {
             FlipPause();
@@ -101,12 +112,6 @@ public class Character : MonoBehaviour {
                 transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)));
                 DestroyTrackingProjectiles();
             }
-            /*
-            if (Input.GetMouseButtonDown(0))
-            {
-                //Moved this functionality elsewhere
-            }
-            */
             setClamps();
             if (Input.GetKey("w"))
             {
