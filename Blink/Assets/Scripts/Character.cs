@@ -11,6 +11,8 @@ public class Character : MonoBehaviour {
     bool paused = false;
     protected int life = 1;
     public GameObject HUDManager;
+    private int blinkRange = 15;
+    private int attackRange = 8;
 
     // Use this for initialization
     void Start () {
@@ -33,24 +35,16 @@ public class Character : MonoBehaviour {
 
     public void CreateProjectile(GameObject attacked)
     {
-        //Converts mouse position to world units for movement purposes, not sure why z needs to be 10
-        //Vector3 mousePos = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)));
-        //print(mousePos);
-        Vector3 position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y, 0);
+        //Spawns the projectile .5 units from the character in the direction of its target
+        Vector3 direction = .5f*(-gameObject.transform.position + attacked.transform.position).normalized;
+        Projectile temp = Instantiate(attack, direction+gameObject.transform.position, Quaternion.identity);
+        //Vector3 position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y, 0);
         //print(position);
-        Projectile temp = Instantiate(attack, position, Quaternion.identity);
-        temp.setTarget(attacked); // Makes the projectiles track the object that spawned them
-        attacked.GetComponent<Character>().tracking.Add(temp);
+        temp.setTarget(attacked); // Makes the projectiles track attacked
+        // Stores the projectile in the attacked unit's list so it can be updated
+        attacked.GetComponent<Character>().tracking.Add(temp); 
     }
 
-    /*public void OnPointerClick(PointerEventData pointerEventData) // Another potential solution to detect on-click, but couldn't get it to work
-    {
-        Debug.Log(name + " Game Object Clicked!");
-    }
-    */
-    // Update is called once per frame
-
-    
     public void DestroyTrackingProjectiles()
     {
         foreach(Projectile proj in tracking)
@@ -87,30 +81,47 @@ public class Character : MonoBehaviour {
         clampedPosition.x = Mathf.Clamp(transform.position.x, -ySize, ySize);
         transform.position = clampedPosition;
     }
-
     void Update () {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
-            if (hit != null && hit.collider != null)
-            {
-                CreateProjectile(hit.collider.gameObject);
-                //Debug.Log("I'm hitting " + hit.collider.name);
-            }
-        }
-
         if (Input.GetKeyDown("space"))
         {
             FlipPause();
         }
         if (!paused)
         {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+                if (hit.collider != null && hit.collider.tag == "AICharacter")
+                {
+                    float distance = Vector3.Distance(gameObject.transform.position, hit.transform.position);
+                    Debug.Log(distance + " to click when attacking");
+                    if (distance < attackRange)
+                    {
+                        CreateProjectile(hit.collider.gameObject);
+                        //Debug.Log("I'm hitting " + hit.collider.name);
+                    }
+                }
+            }
             if (Input.GetMouseButtonDown(1))
             {
                 //Converts mouse position to world units for movement purposes, not sure why z needs to be 10
-                transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)));
-                DestroyTrackingProjectiles();
+                Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+                //Can't teleport onto another object
+                if (hit.collider == null)
+                {
+                    //Checks range, blinks to location if within range, otherwise blinks as close as possible
+                    
+                    float distance = Vector3.Distance(gameObject.transform.position, pos);
+                    Debug.Log(distance + " to click when blinking" );
+                    if (distance < blinkRange)
+                    {
+                        transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
+                        DestroyTrackingProjectiles();
+                    }
+                }
+               
             }
             setClamps();
             if (Input.GetKey("w"))
