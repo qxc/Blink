@@ -12,13 +12,14 @@ public class Character : MonoBehaviour {
     protected int life = 1;
     public GameObject HUDManager;
     private int blinkRange = 15;
-    private int attackRange = 8;
+    private int attackRange = 10;
 
     // Use this for initialization
     void Start () {
         FlipPause();
 	}
-	//figure this shit out, too tired right now. 
+
+    //Pauses if unpaused, unpauses if paused
     public void FlipPause()
     {
         if (paused)
@@ -95,7 +96,7 @@ public class Character : MonoBehaviour {
                 if (hit.collider != null && hit.collider.tag == "AICharacter")
                 {
                     float distance = Vector3.Distance(gameObject.transform.position, hit.transform.position);
-                    Debug.Log(distance + " to click when attacking");
+                    //Debug.Log(distance + " to click when attacking");
                     if (distance < attackRange)
                     {
                         CreateProjectile(hit.collider.gameObject);
@@ -114,7 +115,7 @@ public class Character : MonoBehaviour {
                     //Checks range, blinks to location if within range, otherwise blinks as close as possible
                     
                     float distance = Vector3.Distance(gameObject.transform.position, pos);
-                    Debug.Log(distance + " to click when blinking" );
+                    //Debug.Log(distance + " to click when blinking" );
                     if (distance < blinkRange)
                     {
                         transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
