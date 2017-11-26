@@ -7,10 +7,6 @@ public class Projectile : MonoBehaviour {
     GameObject target;
     Vector3 targetPosition;
 
-	void Start () {
-		
-	}
-	
     public void setTarget(GameObject target_)
     {
         target = target_;
@@ -22,6 +18,8 @@ public class Projectile : MonoBehaviour {
 	void Update () {
         if (target == null)
         {
+            //Turns 'dead' projectiles a different color
+            gameObject.GetComponent<Renderer>().material.color = Color.black;
             if (targetPosition == transform.position)
                 Destroy(gameObject);
             else

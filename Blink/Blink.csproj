@@ -220,6 +220,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AI.cs" />
+    <Compile Include="Assets\Scripts\AttackRadius.cs" />
+    <Compile Include="Assets\Scripts\BlinkRadius.cs" />
     <Compile Include="Assets\Scripts\BuildLevel.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\ControlCamera.cs" />

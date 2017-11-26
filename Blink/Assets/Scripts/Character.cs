@@ -11,9 +11,18 @@ public class Character : MonoBehaviour {
     bool paused = false;
     protected int life = 1;
     public GameObject HUDManager;
-    private int blinkRange = 15;
-    private int attackRange = 10;
+    private int blinkrange = 7;
+    private int attackrange = 6;
+    private int cameraZ = -1;
 
+    public int getBlinkRange()
+    {
+        return blinkrange;
+    }
+    public int getAttackRange()
+    {
+        return attackrange;
+    }
     // Use this for initialization
     void Start () {
         FlipPause();
@@ -62,17 +71,17 @@ public class Character : MonoBehaviour {
             Destroy(collision.gameObject);
             life--;
             if(life <= 0)
-                restartGame();
+                RestartGame();
         }
         
 
     }
 
-    private void restartGame()
+    private void RestartGame()
     {
         GameObject.Find("LevelManager").GetComponent<LevelManager>().changeScene("Game");
     }
-    void setClamps()
+    void SetClamps()
     {
         //Binds character's movement to remain within these bounds
         float xSize = 4.4f;
@@ -83,6 +92,7 @@ public class Character : MonoBehaviour {
         transform.position = clampedPosition;
     }
     void Update () {
+        
         if (Input.GetKeyDown("space"))
         {
             FlipPause();
@@ -95,9 +105,9 @@ public class Character : MonoBehaviour {
                 RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
                 if (hit.collider != null && hit.collider.tag == "AICharacter")
                 {
-                    float distance = Vector3.Distance(gameObject.transform.position, hit.transform.position);
+                    float distance = Vector3.Distance(gameObject.transform.position, hit.transform.position)+cameraZ;
                     //Debug.Log(distance + " to click when attacking");
-                    if (distance < attackRange)
+                    if (distance < attackrange)
                     {
                         CreateProjectile(hit.collider.gameObject);
                         //Debug.Log("I'm hitting " + hit.collider.name);
@@ -114,9 +124,10 @@ public class Character : MonoBehaviour {
                 {
                     //Checks range, blinks to location if within range, otherwise blinks as close as possible
                     
-                    float distance = Vector3.Distance(gameObject.transform.position, pos);
+                    float distance = Vector3.Distance(gameObject.transform.position, pos)+cameraZ;
                     //Debug.Log(distance + " to click when blinking" );
-                    if (distance < blinkRange)
+                    Debug.Log(distance);
+                    if (distance < blinkrange)
                     {
                         transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
                         DestroyTrackingProjectiles();
@@ -124,7 +135,7 @@ public class Character : MonoBehaviour {
                 }
                
             }
-            setClamps();
+            SetClamps();
             if (Input.GetKey("w"))
             {
                 transform.Translate(Vector3.up * Time.deltaTime * speed);

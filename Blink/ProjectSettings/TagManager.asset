@@ -43,3 +43,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UIInfo
+    uniqueID: 512019297
+    locked: 0

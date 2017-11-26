@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ControlCamera : MonoBehaviour {
     public GameObject character;
-    private Vector3 offset = new Vector3(0,0,-5);
+    //private Vector3 offset = new Vector3(0,0,-5);
 	// Use this for initialization
 	void Start () {
         character = GameObject.Find("Character");
