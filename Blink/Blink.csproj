@@ -223,6 +223,7 @@
     <Compile Include="Assets\Scripts\AttackRadius.cs" />
     <Compile Include="Assets\Scripts\BlinkRadius.cs" />
     <Compile Include="Assets\Scripts\BuildLevel.cs" />
+    <Compile Include="Assets\Scripts\CDIcon.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\ControlCamera.cs" />
     <Compile Include="Assets\Scripts\HUDManager.cs" />

@@ -5,12 +5,14 @@ using UnityEngine;
 public class AI : Character {
 
     private GameObject character;
+    private float attackPeriod = 1.25f;
+    private float attackDelay = 1f;
     
 	// Use this for initialization
 	void Start () {
         character = GameObject.Find("Character"); //Sets the character used for projectile tracking
-        life = 5;
-        InvokeRepeating("attackCharacter", 0, 1f);
+        life = 2;
+        InvokeRepeating("attackCharacter", attackDelay, attackPeriod);
         //InvokeRepeating("DebugTrackingProjectile", 0, 1f);
 
     }

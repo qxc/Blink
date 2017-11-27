@@ -11,17 +11,33 @@ public class Character : MonoBehaviour {
     bool paused = false;
     protected int life = 1;
     public GameObject HUDManager;
-    private int blinkrange = 7;
-    private int attackrange = 6;
+
+    private int blinkRange = 7;
+    private float blinkCooldown = 1f;
+    private float blinkTimeStamp;
+
+    private int attackRange = 6;
+    private float attackCooldown = 3f;
+    private float attackTimeStamp;
+
     private int cameraZ = -1;
+    
 
     public int getBlinkRange()
     {
-        return blinkrange;
+        return blinkRange;
     }
     public int getAttackRange()
     {
-        return attackrange;
+        return attackRange;
+    }
+    public float getBlinkCooldown()
+    {
+        return blinkCooldown;
+    }
+    public float getAttackCooldown()
+    {
+        return attackCooldown;
     }
     // Use this for initialization
     void Start () {
@@ -100,37 +116,46 @@ public class Character : MonoBehaviour {
         if (!paused)
         {
             if (Input.GetMouseButtonDown(0))
-            {
-                Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
-                if (hit.collider != null && hit.collider.tag == "AICharacter")
-                {
-                    float distance = Vector3.Distance(gameObject.transform.position, hit.transform.position)+cameraZ;
-                    //Debug.Log(distance + " to click when attacking");
-                    if (distance < attackrange)
+                if(attackTimeStamp <= Time.time) {
                     {
-                        CreateProjectile(hit.collider.gameObject);
-                        //Debug.Log("I'm hitting " + hit.collider.name);
+                        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+                        if (hit.collider != null && hit.collider.tag == "AICharacter")
+                        {
+                            float distance = Vector3.Distance(gameObject.transform.position, hit.transform.position) + cameraZ;
+                            //Debug.Log(distance + " to click when attacking");
+                            if (distance < attackRange)
+                            {
+                                GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
+                                CreateProjectile(hit.collider.gameObject);
+                                attackTimeStamp = Time.time + attackCooldown;
+                                //Debug.Log("I'm hitting " + hit.collider.name);
+                            }
+                        }
                     }
-                }
             }
             if (Input.GetMouseButtonDown(1))
             {
-                //Converts mouse position to world units for movement purposes, not sure why z needs to be 10
-                Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
-                //Can't teleport onto another object
-                if (hit.collider == null)
+                if (blinkTimeStamp <= Time.time)
                 {
-                    //Checks range, blinks to location if within range, otherwise blinks as close as possible
-                    
-                    float distance = Vector3.Distance(gameObject.transform.position, pos)+cameraZ;
-                    //Debug.Log(distance + " to click when blinking" );
-                    Debug.Log(distance);
-                    if (distance < blinkrange)
+                    //Converts mouse position to world units for movement purposes, not sure why z needs to be 10
+                    Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+                    //Can't teleport onto another object
+                    if (hit.collider == null)
                     {
-                        transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
-                        DestroyTrackingProjectiles();
+                        //Checks range, blinks to location if within range, otherwise blinks as close as possible
+
+                        float distance = Vector3.Distance(gameObject.transform.position, pos) + cameraZ;
+                        //Debug.Log(distance + " to click when blinking" );
+                        Debug.Log(distance);
+                        if (distance < blinkRange)
+                        {
+                            GameObject.Find("BlinkCDIcon").GetComponent<CDIcon>().Activate(blinkCooldown);
+                            blinkTimeStamp = Time.time + blinkCooldown;
+                            transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
+                            DestroyTrackingProjectiles();
+                        }
                     }
                 }
                

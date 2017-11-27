@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour {
-    float speed = 6f;
+    float speed = 4f;
     GameObject target;
     Vector3 targetPosition;
 

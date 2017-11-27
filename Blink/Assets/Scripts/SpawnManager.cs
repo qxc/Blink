@@ -5,9 +5,11 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour {
     public GameObject basicEnemy;
     public GameObject character;
+    private float spawnPeriod = 5f;
+    private float spawnDelay = 5f;
 	// Use this for initialization
 	void Start () {
-        InvokeRepeating("SpawnEnemy", 1f, 5f);
+        InvokeRepeating("SpawnEnemy", spawnDelay, spawnPeriod);
         character = GameObject.Find("Character"); //Sets the character used for spawn tracking
     }
 
