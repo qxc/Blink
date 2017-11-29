@@ -148,11 +148,11 @@ public class Character : MonoBehaviour {
 
                         float distance = Vector3.Distance(gameObject.transform.position, pos) + cameraZ;
                         //Debug.Log(distance + " to click when blinking" );
-                        Debug.Log(distance);
                         if (distance < blinkRange)
                         {
                             GameObject.Find("BlinkCDIcon").GetComponent<CDIcon>().Activate(blinkCooldown);
-                            blinkTimeStamp = Time.time + blinkCooldown;
+                            GameObject.Find("BarCooldown").GetComponent<BarCooldown>().Activate(blinkCooldown);
+                            blinkTimeStamp = Time.time + blinkCooldown; // tells you when blink goes off cooldown
                             transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
                             DestroyTrackingProjectiles();
                         }
