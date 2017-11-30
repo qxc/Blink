@@ -9,11 +9,11 @@ public class BarCooldown : MonoBehaviour
     public Image bar;
     public Image fill;
 
-    float duration;
-    float changeStep;
-    float repeatPeriod = .05f;
-    float verticalOffset = .75f;
-    Character character;
+    protected float duration;
+    protected float changeStep;
+    protected float repeatPeriod = .05f;
+    public float verticalOffset = .65f;
+    protected Character character;
     // Use this for initialization
     void Start()
     {
@@ -23,7 +23,7 @@ public class BarCooldown : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         bar.rectTransform.position = Camera.main.WorldToScreenPoint(character.transform.position + new Vector3(0, verticalOffset, 0));
         fill.rectTransform.position = Camera.main.WorldToScreenPoint(character.transform.position + new Vector3(0, verticalOffset, 0));

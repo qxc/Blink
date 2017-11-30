@@ -21,7 +21,12 @@ public class Character : MonoBehaviour {
     private float attackTimeStamp;
 
     private int cameraZ = -1;
-    
+
+    string pause = "space";
+    string up = "w";
+    string down = "s";
+    string left = "a";
+    string right = "d";
 
     public int getBlinkRange()
     {
@@ -109,7 +114,7 @@ public class Character : MonoBehaviour {
     }
     void Update () {
         
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown(pause))
         {
             FlipPause();
         }
@@ -127,6 +132,7 @@ public class Character : MonoBehaviour {
                             if (distance < attackRange)
                             {
                                 GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
+                                GameObject.Find("AttackCooldownManager").GetComponent<BarCooldown>().Activate(attackCooldown);
                                 CreateProjectile(hit.collider.gameObject);
                                 attackTimeStamp = Time.time + attackCooldown;
                                 //Debug.Log("I'm hitting " + hit.collider.name);
@@ -148,12 +154,18 @@ public class Character : MonoBehaviour {
 
                         float distance = Vector3.Distance(gameObject.transform.position, pos) + cameraZ;
                         //Debug.Log(distance + " to click when blinking" );
-                        if (distance < blinkRange)
+                        //if (distance < blinkRange)
+                        if(true)
                         {
                             GameObject.Find("BlinkCDIcon").GetComponent<CDIcon>().Activate(blinkCooldown);
-                            GameObject.Find("BarCooldown").GetComponent<BarCooldown>().Activate(blinkCooldown);
+                            GameObject.Find("BlinkCooldownManager").GetComponent<BarCooldown>().Activate(blinkCooldown);
                             blinkTimeStamp = Time.time + blinkCooldown; // tells you when blink goes off cooldown
-                            transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
+                            //Blink to targeted location even if it is out of range
+                            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
+                            Vector3 offset = mousePos - transform.position;
+                            transform.position = transform.position+ Vector3.ClampMagnitude(offset,blinkRange);
+                            //Makes blink only work if use it within range
+                            //transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
                             DestroyTrackingProjectiles();
                         }
                     }
@@ -161,19 +173,19 @@ public class Character : MonoBehaviour {
                
             }
             SetClamps();
-            if (Input.GetKey("w"))
+            if (Input.GetKey(up))
             {
                 transform.Translate(Vector3.up * Time.deltaTime * speed);
             }
-            if (Input.GetKey("s"))
+            if (Input.GetKey(down))
             {
                 transform.Translate(Vector3.down * Time.deltaTime * speed);
             }
-            if (Input.GetKey("d"))
+            if (Input.GetKey(right))
             {
                 transform.Translate(Vector3.right * Time.deltaTime * speed);
             }
-            if (Input.GetKey("a"))
+            if (Input.GetKey(left))
             {
                 transform.Translate(Vector3.left * Time.deltaTime * speed);
             }
