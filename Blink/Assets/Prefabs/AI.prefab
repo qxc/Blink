@@ -50,19 +50,19 @@ Rigidbody2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1693744039596076}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!60 &60467121757184964
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -137,7 +137,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f4bac3df302eebe40ba367c7b92de295, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9ae35095e7fc99840bdba2621a6614fe, type: 3}
   m_Color: {r: 0, g: 1, b: 0.13103461, a: 1}
   m_FlipX: 0
   m_FlipY: 0

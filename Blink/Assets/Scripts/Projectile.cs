@@ -14,8 +14,28 @@ public class Projectile : MonoBehaviour {
             targetPosition = target_.transform.position;
     }
 
-	// Update is called once per frame
-	void Update () {
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            Destroy(gameObject);
+        }
+
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Obstacle")
+        {
+            Destroy(gameObject);
+        }
+
+
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (target == null)
         {
             //Turns 'dead' projectiles a different color

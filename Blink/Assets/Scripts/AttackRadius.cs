@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackRadius : MonoBehaviour {
     GameObject character;
-    int size;
+    float size;
 	// Use this for initialization
 	void Start () {
         character = GameObject.Find("Character");
@@ -21,6 +21,7 @@ public class AttackRadius : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        transform.position = character.transform.position;
+        //Unnecessary as these are now children of Character
+        //transform.position = character.transform.position;
 	}
 }

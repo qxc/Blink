@@ -5,20 +5,24 @@ using UnityEngine.EventSystems;
 
 public class Character : MonoBehaviour {
 
-    protected int speed = 3;
+    protected float moveSpeed = 3;
     protected List<Projectile> tracking = new List<Projectile>();
     public Projectile attack;
     bool paused = false;
     protected int life = 1;
     public GameObject HUDManager;
 
-    private int blinkRange = 7;
+    private float blinkRange = 5;
     private float blinkCooldown = 1f;
     private float blinkTimeStamp;
 
-    private int attackRange = 6;
+    private float attackRange = 4;
     private float attackCooldown = 3f;
     private float attackTimeStamp;
+
+    private float meleeCooldown = .5f;
+    private int meleeDamage = 1;
+    bool isMelee = false;
 
     private int cameraZ = -1;
 
@@ -27,12 +31,15 @@ public class Character : MonoBehaviour {
     string down = "s";
     string left = "a";
     string right = "d";
+    string melee = "q";
 
-    public int getBlinkRange()
+    public GameObject marker;
+
+    public float getBlinkRange()
     {
         return blinkRange;
     }
-    public int getAttackRange()
+    public float getAttackRange()
     {
         return attackRange;
     }
@@ -87,7 +94,7 @@ public class Character : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "AI")
+        if (collision.tag == "AIProjectile")
         {
             Destroy(collision.gameObject);
             life--;
@@ -95,7 +102,15 @@ public class Character : MonoBehaviour {
                 RestartGame();
         }
         
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Debug.Log(collision.gameObject.name);
+        if (collision.gameObject.tag == "AICharacter" && isMelee)
+        {
+            collision.gameObject.GetComponent<AI>().damage(meleeDamage);
+        }
     }
 
     private void RestartGame()
@@ -105,13 +120,20 @@ public class Character : MonoBehaviour {
     void SetClamps()
     {
         //Binds character's movement to remain within these bounds
-        float xSize = 4.4f;
-        float ySize = 8.2f;
+        //float xSize = 4.4f;
+        //float ySize = 8.2f;
+        /*
+        float xSize = 12f;
+        float ySize = 12f;
         Vector3 clampedPosition = transform.position;
         clampedPosition.y = Mathf.Clamp(transform.position.y, -xSize, xSize);
         clampedPosition.x = Mathf.Clamp(transform.position.x, -ySize, ySize);
         transform.position = clampedPosition;
+        */
+        //clamps movement within a circle of size 10
+        transform.position = Vector3.ClampMagnitude(transform.position, 10f);
     }
+
     void Update () {
         
         if (Input.GetKeyDown(pause))
@@ -157,13 +179,17 @@ public class Character : MonoBehaviour {
                         //if (distance < blinkRange)
                         if(true)
                         {
+                            
                             GameObject.Find("BlinkCDIcon").GetComponent<CDIcon>().Activate(blinkCooldown);
                             GameObject.Find("BlinkCooldownManager").GetComponent<BarCooldown>().Activate(blinkCooldown);
                             blinkTimeStamp = Time.time + blinkCooldown; // tells you when blink goes off cooldown
                             //Blink to targeted location even if it is out of range
                             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
+                            //Marker used to see where you blink and where you clicked for debugging
+                            //Instantiate(marker, mousePos, Quaternion.identity);
                             Vector3 offset = mousePos - transform.position;
-                            transform.position = transform.position+ Vector3.ClampMagnitude(offset,blinkRange);
+                            transform.position = transform.position + Vector3.ClampMagnitude(offset,blinkRange);
+                            //Instantiate(marker, transform.position, Quaternion.identity);
                             //Makes blink only work if use it within range
                             //transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
                             DestroyTrackingProjectiles();
@@ -173,21 +199,39 @@ public class Character : MonoBehaviour {
                
             }
             SetClamps();
-            if (Input.GetKey(up))
+            if (!isMelee)
             {
-                transform.Translate(Vector3.up * Time.deltaTime * speed);
+                if (Input.GetKey(up))
+                {
+                    transform.Translate(Vector3.up * Time.deltaTime * moveSpeed);
+                }
+                if (Input.GetKey(down))
+                {
+                    transform.Translate(Vector3.down * Time.deltaTime * moveSpeed);
+                }
+                if (Input.GetKey(right))
+                {
+                    transform.Translate(Vector3.right * Time.deltaTime * moveSpeed);
+                }
+                if (Input.GetKey(left))
+                {
+                    transform.Translate(Vector3.left * Time.deltaTime * moveSpeed);
+                }
             }
-            if (Input.GetKey(down))
+            if (isMelee)
             {
-                transform.Translate(Vector3.down * Time.deltaTime * speed);
+                transform.Rotate(Vector3.forward * 15);
+                if (transform.localRotation == Quaternion.Euler(0, 0, 0))
+                    isMelee = false;
             }
-            if (Input.GetKey(right))
+            else
             {
-                transform.Translate(Vector3.right * Time.deltaTime * speed);
-            }
-            if (Input.GetKey(left))
-            {
-                transform.Translate(Vector3.left * Time.deltaTime * speed);
+                if (Input.GetKeyDown(melee))
+                {
+                    transform.Rotate(Vector3.forward * 15);
+                    isMelee = true;
+                }
+
             }
         }
     }
