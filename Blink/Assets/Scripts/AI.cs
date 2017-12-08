@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class AI : Character {
 
-    private GameObject character;
-    private float attackPeriod = 1.25f;
-    private float attackDelay = 1f;
-    private float range = 5f;
+    protected GameObject character;
+    protected float attackPeriod = 1.25f;
+    protected float attackDelay = 1f;
+    protected float range = 5f;
+    protected float size = 1f;
     
 	// Use this for initialization
 	void Start () {
@@ -26,6 +27,8 @@ public class AI : Character {
         moveSpeed = Random.Range(2f, 4f);
         attackDelay = Random.Range(.25f, 2f);
         range = Random.Range(4f, 7f);
+        float randSize = Random.Range(.75f, 1.25f);
+        gameObject.transform.localScale = new Vector3(randSize, randSize);
     }
 
     // Update is called once per frame
@@ -33,13 +36,13 @@ public class AI : Character {
         moveTowardPlayer();
 	}
 
-    void attackCharacter()
+    protected void attackCharacter()
     {
         if(Vector3.Distance(transform.position,character.transform.position) < range)
             CreateProjectile(character);
     }
 
-    void DebugTrackingProjectile()
+    protected void DebugTrackingProjectile()
     {
         foreach(Projectile proj in tracking)
         {
@@ -47,7 +50,7 @@ public class AI : Character {
         }
     }
 
-    private void moveTowardPlayer()
+    protected void moveTowardPlayer()
     {
         transform.position = Vector3.MoveTowards(transform.position, character.transform.position, .5f* moveSpeed * Time.deltaTime);
     }

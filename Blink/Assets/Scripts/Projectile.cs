@@ -13,7 +13,7 @@ public class Projectile : MonoBehaviour {
         if (target_ != null)
             targetPosition = target_.transform.position;
     }
-
+/*
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Obstacle")
@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour {
 
 
     }
-
+    */
     // Update is called once per frame
     void Update () {
         if (target == null)

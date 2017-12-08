@@ -12,7 +12,7 @@ public class BarCooldown : MonoBehaviour
     protected float duration;
     protected float changeStep;
     protected float repeatPeriod = .05f;
-    public float verticalOffset = .65f;
+    protected float verticalOffset = .65f;
     protected Character character;
     // Use this for initialization
     void Start()

@@ -9,7 +9,7 @@ public class Character : MonoBehaviour {
     protected List<Projectile> tracking = new List<Projectile>();
     public Projectile attack;
     bool paused = false;
-    protected int life = 1;
+    protected int life = 100;
     public GameObject HUDManager;
 
     private float blinkRange = 5;
@@ -25,6 +25,8 @@ public class Character : MonoBehaviour {
     bool isMelee = false;
 
     private int cameraZ = -1;
+
+    private float arenaRadius;
 
     string pause = "space";
     string up = "w";
@@ -54,7 +56,8 @@ public class Character : MonoBehaviour {
     // Use this for initialization
     void Start () {
         FlipPause();
-	}
+        arenaRadius = GameObject.Find("Background").GetComponent<SetBackground>().getArenaRadius();
+    }
 
     //Pauses if unpaused, unpauses if paused
     public void FlipPause()
@@ -130,14 +133,16 @@ public class Character : MonoBehaviour {
         clampedPosition.x = Mathf.Clamp(transform.position.x, -ySize, ySize);
         transform.position = clampedPosition;
         */
-        //clamps movement within a circle of size 10
-        transform.position = Vector3.ClampMagnitude(transform.position, 10f);
+        
+        //clamps movement within a circle of arenaSize
+        transform.position = Vector3.ClampMagnitude(transform.position, arenaRadius);
+        //Debug.Log(Vector3.Distance(transform.position, new Vector3(0, 0, 0)));
     }
 
     void Update () {
         
         if (Input.GetKeyDown(pause))
-        {
+        {   
             FlipPause();
         }
         if (!paused)
@@ -154,7 +159,7 @@ public class Character : MonoBehaviour {
                             if (distance < attackRange)
                             {
                                 GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
-                                GameObject.Find("AttackCooldownManager").GetComponent<BarCooldown>().Activate(attackCooldown);
+                                GameObject.Find("AttackCooldownManager").GetComponent<AttackBarCooldown>().Activate(attackCooldown);
                                 CreateProjectile(hit.collider.gameObject);
                                 attackTimeStamp = Time.time + attackCooldown;
                                 //Debug.Log("I'm hitting " + hit.collider.name);

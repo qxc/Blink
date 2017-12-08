@@ -4,29 +4,25 @@ using UnityEngine;
 
 public class BuildLevel : MonoBehaviour {
     public GameObject wall;
-    private int height = 5;
-    private int width = 9;
+    float arenaRadius;
     // Use this for initialization
     void Start () {
-        BuildWalls();
-	}
+        arenaRadius = GameObject.Find("Background").GetComponent<SetBackground>().getArenaRadius();
+        BuildWall();
+        BuildWall();
+        BuildWall();
+        BuildWall();
+        BuildWall();
+        InvokeRepeating("BuildWall", 5f, 10f);
+    }
 	
-    private void BuildWalls()
+    private void BuildWall()
     {
-        for (int l = -width; l <= width; l = l + 2 * width)
-        {
-            for (int i = -height; i < height; i++)
-            {
-                Instantiate(wall, new Vector3(l, i, 0), Quaternion.identity);
-            }
-        }
-        for (int k = -height; k <= height; k = k + 2*height)
-        {
-            for (int j = -width; j < width; j++)
-            {
-                Instantiate(wall, new Vector3(j, k, 0), Quaternion.identity);
-            }
-        }
+        float constant = 3f;
+        float xCoord = Random.Range(-arenaRadius + constant, arenaRadius - constant);
+        float yCoord = Random.Range(-arenaRadius + constant, arenaRadius - constant);
+        Instantiate(wall, new Vector3(xCoord, yCoord, 0), Quaternion.identity);
+        
     }
 
 	// Update is called once per frame
