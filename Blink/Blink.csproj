@@ -238,6 +238,7 @@
     <Compile Include="Assets\Scripts\SniperAI.cs" />
     <Compile Include="Assets\Scripts\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\TankAI.cs" />
+    <Compile Include="Assets\Scripts\TimeTracker.cs" />
     <Compile Include="Assets\Scripts\Wall.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

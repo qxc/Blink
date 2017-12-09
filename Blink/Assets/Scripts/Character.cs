@@ -9,7 +9,7 @@ public class Character : MonoBehaviour {
     protected List<Projectile> tracking = new List<Projectile>();
     public Projectile attack;
     bool paused = false;
-    protected int life = 100;
+    protected int life = 1;
     public GameObject HUDManager;
 
     private float blinkRange = 5;
@@ -97,12 +97,15 @@ public class Character : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "AIProjectile")
+        if (!isMelee)
         {
-            Destroy(collision.gameObject);
-            life--;
-            if(life <= 0)
-                RestartGame();
+            if (collision.tag == "AIProjectile")
+            {
+                Destroy(collision.gameObject);
+                life--;
+                if (life <= 0)
+                    RestartGame();
+            }
         }
         
     }

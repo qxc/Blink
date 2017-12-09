@@ -13,13 +13,13 @@ public class AI : Character {
 	// Use this for initialization
 	void Start () {
         character = GameObject.Find("Character"); //Sets the character used for projectile tracking
-        randomStats();
+        SetStats();
         InvokeRepeating("attackCharacter", attackDelay, attackPeriod);
         //InvokeRepeating("DebugTrackingProjectile", 0, 1f);
 
     }
     //Each AI gets a random set of stats when it's created
-    void randomStats()
+    void SetStats()
     {
         //life = 10;
         life = Random.Range(2, 4);
@@ -27,6 +27,20 @@ public class AI : Character {
         moveSpeed = Random.Range(2f, 4f);
         attackDelay = Random.Range(.25f, 2f);
         range = Random.Range(4f, 7f);
+        float randSize = Random.Range(.75f, 1.25f);
+        gameObject.transform.localScale = new Vector3(randSize, randSize);
+    }
+    //First try at how might do scaling over time. Is this a good idea? 
+    //Maybe better to just introduce new enemies
+    public void Initialize(int intScaleFactor, float floatScaleFactor)
+    {
+        life = Random.Range(2+intScaleFactor, 4+intScaleFactor);
+        moveSpeed = Random.Range(2f+floatScaleFactor, 4f+floatScaleFactor);
+        range = Random.Range(4f+floatScaleFactor, 7f+floatScaleFactor);
+
+        attackPeriod = Random.Range(.75f-Mathf.Log(floatScaleFactor), 1.25f-Mathf.Log(floatScaleFactor));
+
+        attackDelay = Random.Range(.25f, 2f);
         float randSize = Random.Range(.75f, 1.25f);
         gameObject.transform.localScale = new Vector3(randSize, randSize);
     }

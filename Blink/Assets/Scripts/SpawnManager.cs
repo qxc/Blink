@@ -19,6 +19,13 @@ public class SpawnManager : MonoBehaviour {
 
     public void SpawnEnemy()
     {
+        /*
+        float scaleFactor = ((Time.timeSinceLevelLoad / 60) / 2);
+        Debug.Log("Scale Factor is" + scaleFactor);
+        int intScaleFactor = Mathf.RoundToInt(scaleFactor);
+        Debug.Log("Rounded Scale Factor is" + intScaleFactor);
+        */
+        //Debug.Log(Time.timeSinceLevelLoad);
         int enemyType = Random.Range(0, numEnemyTypes);
         int circleSize = 4;
         int bufferDistance = 2;
