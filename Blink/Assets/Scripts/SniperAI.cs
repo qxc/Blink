@@ -35,8 +35,7 @@ public class SniperAI : AI {
             life--;
             if (life <= 0)
             {
-                GameObject.Find("HUDManager").GetComponent<HUDManager>().changeScore(1);
-                Destroy(gameObject);
+                OnDeath();
             }
         }
     }

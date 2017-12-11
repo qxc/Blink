@@ -15,7 +15,7 @@ public class AttackRadius : MonoBehaviour {
     {
         //it's off by 2, so we add that at the end
         //print(size);
-        size = (2 * character.GetComponent<Character>().getAttackRange()) + 2;
+        size = (2 * character.GetComponent<Character>().getAttackRange());
         transform.localScale += new Vector3(size, size, 0);
     }
 

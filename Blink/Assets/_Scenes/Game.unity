@@ -1340,6 +1340,21 @@ Prefab:
       value: 
       objectReference: {fileID: 1824264865147688, guid: 24a4ac004fcf33946bae7dcfb94d2646,
         type: 2}
+    - target: {fileID: 212238091252297022, guid: a25fd95d62f196b4d83cb0edf5bf168d,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212238091252297022, guid: a25fd95d62f196b4d83cb0edf5bf168d,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212238091252297022, guid: a25fd95d62f196b4d83cb0edf5bf168d,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a25fd95d62f196b4d83cb0edf5bf168d, type: 2}
   m_IsPrefabParent: 0
@@ -1570,6 +1585,7 @@ MonoBehaviour:
   tankEnemy: {fileID: 1693744039596076, guid: 9acf3fdaeee4df043a6a3abc362e3157, type: 2}
   sniperEnemy: {fileID: 1693744039596076, guid: 0cc9758f6f160cd4481237f178a65c67,
     type: 2}
+  enemies: []
 --- !u!1 &2026106977
 GameObject:
   m_ObjectHideFlags: 0

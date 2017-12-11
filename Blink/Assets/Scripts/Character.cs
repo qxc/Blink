@@ -9,10 +9,10 @@ public class Character : MonoBehaviour {
     protected List<Projectile> tracking = new List<Projectile>();
     public Projectile attack;
     bool paused = false;
-    protected int life = 1;
+    protected int life = 10;
     public GameObject HUDManager;
 
-    private float blinkRange = 5;
+    private float blinkRange = 3;
     private float blinkCooldown = 1f;
     private float blinkTimeStamp;
 
@@ -20,11 +20,11 @@ public class Character : MonoBehaviour {
     private float attackCooldown = 3f;
     private float attackTimeStamp;
 
-    private float meleeCooldown = .5f;
+    //private float meleeCooldown = .5f;
     private int meleeDamage = 1;
     bool isMelee = false;
 
-    private int cameraZ = -1;
+    //private int cameraZ = -1;
 
     private float arenaRadius;
 
@@ -34,6 +34,8 @@ public class Character : MonoBehaviour {
     string left = "a";
     string right = "d";
     string melee = "q";
+    string attackClosest = "j";
+    string blinkKey = "k";
 
     public GameObject marker;
 
@@ -110,6 +112,11 @@ public class Character : MonoBehaviour {
         
     }
 
+    private void BlinkInDirection()
+    {
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log(collision.gameObject.name);
@@ -142,8 +149,102 @@ public class Character : MonoBehaviour {
         //Debug.Log(Vector3.Distance(transform.position, new Vector3(0, 0, 0)));
     }
 
+    GameObject GetClosestEnemy(List<GameObject> enemies)
+    {
+        GameObject closest = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
+        foreach (GameObject e in enemies)
+        {
+            if (e != null)
+            {
+                float dist = Vector3.Distance(e.transform.position, currentPos);
+                if (dist < minDist)
+                {
+                    closest = e;
+                    minDist = dist;
+                }
+            }
+        }
+        return closest;
+    }
+    void AttackClosestEnemy(List<GameObject> enemies)
+    {
+        if (attackTimeStamp <= Time.time)
+        {
+            GameObject closestEnemy = GetClosestEnemy(enemies);
+            if (closestEnemy != null)
+            {
+                float distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
+                //Debug.Log(distance);
+                if (distance <= attackRange)
+                {
+                    GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
+                    GameObject.Find("AttackCooldownManager").GetComponent<AttackBarCooldown>().Activate(attackCooldown);
+                    CreateProjectile(closestEnemy);
+                    attackTimeStamp = Time.time + attackCooldown;
+                    //Debug.Log("I'm hitting " + hit.collider.name);
+                }
+            }
+                }
+    }
+
+    string FindCurrentDirection()
+    {
+        if (Input.GetKey(up))
+        {
+            if (Input.GetKey(left))
+                return "UpLeft";
+            else if (Input.GetKey(right))
+                return "UpRight";
+            else
+                return "Up";
+        }
+        else if (Input.GetKey(down))
+        {
+            if (Input.GetKey(left))
+                return "DownLeft";
+            else if (Input.GetKey(right))
+                return "DownRight";
+            else
+                return "Down";
+        }
+        else if (Input.GetKey(left))
+            return "Left";
+        else if (Input.GetKey(right))
+            return "Right";
+        return "None";
+    }
+
+    void BlinkInDirection(string direction)
+    {
+        if (direction == "Up")
+            transform.position = transform.position + new Vector3(0, blinkRange, 0);
+        if (direction == "UpRight")
+            transform.position = transform.position + new Vector3(blinkRange, blinkRange, 0);
+        if (direction == "UpLeft")
+            transform.position = transform.position + new Vector3(-blinkRange, blinkRange, 0);
+        if (direction == "Left")
+            transform.position = transform.position + new Vector3(-blinkRange, 0, 0);
+        if (direction == "Right")
+            transform.position = transform.position + new Vector3(blinkRange, 0, 0);
+        if (direction == "DownLeft")
+            transform.position = transform.position + new Vector3(-blinkRange, -blinkRange, 0);
+        if (direction == "Down")
+            transform.position = transform.position + new Vector3(0, -blinkRange, 0);
+        if (direction == "DownRight")
+            transform.position = transform.position + new Vector3(blinkRange, -blinkRange, 0);
+    }
+
+    void BlinkCleanup()
+    {
+        GameObject.Find("BlinkCDIcon").GetComponent<CDIcon>().Activate(blinkCooldown);
+        GameObject.Find("BlinkCooldownManager").GetComponent<BarCooldown>().Activate(blinkCooldown);
+        blinkTimeStamp = Time.time + blinkCooldown; // tells you when blink goes off cooldown
+        DestroyTrackingProjectiles();
+    }
+
     void Update () {
-        
         if (Input.GetKeyDown(pause))
         {   
             FlipPause();
@@ -157,9 +258,9 @@ public class Character : MonoBehaviour {
                         RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
                         if (hit.collider != null && hit.collider.tag == "AICharacter")
                         {
-                            float distance = Vector3.Distance(gameObject.transform.position, hit.transform.position) + cameraZ;
+                            float distance = Vector3.Distance(gameObject.transform.position, hit.transform.position);
                             //Debug.Log(distance + " to click when attacking");
-                            if (distance < attackRange)
+                            if (distance <= attackRange)
                             {
                                 GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
                                 GameObject.Find("AttackCooldownManager").GetComponent<AttackBarCooldown>().Activate(attackCooldown);
@@ -174,23 +275,19 @@ public class Character : MonoBehaviour {
             {
                 if (blinkTimeStamp <= Time.time)
                 {
-                    //Converts mouse position to world units for movement purposes, not sure why z needs to be 10
+                    //Converts mouse position to world units for movement purposes
                     Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
                     //Can't teleport onto another object
                     if (hit.collider == null)
                     {
                         //Checks range, blinks to location if within range, otherwise blinks as close as possible
-
-                        float distance = Vector3.Distance(gameObject.transform.position, pos) + cameraZ;
+                        //float distance = Vector3.Distance(gameObject.transform.position, pos);
                         //Debug.Log(distance + " to click when blinking" );
                         //if (distance < blinkRange)
-                        if(true)
-                        {
-                            
-                            GameObject.Find("BlinkCDIcon").GetComponent<CDIcon>().Activate(blinkCooldown);
-                            GameObject.Find("BlinkCooldownManager").GetComponent<BarCooldown>().Activate(blinkCooldown);
-                            blinkTimeStamp = Time.time + blinkCooldown; // tells you when blink goes off cooldown
+                        
+                            //takes care of all the clean-up associated with blink without doing the actual movement
+                            BlinkCleanup();
                             //Blink to targeted location even if it is out of range
                             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
                             //Marker used to see where you blink and where you clicked for debugging
@@ -200,11 +297,18 @@ public class Character : MonoBehaviour {
                             //Instantiate(marker, transform.position, Quaternion.identity);
                             //Makes blink only work if use it within range
                             //transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
-                            DestroyTrackingProjectiles();
-                        }
+                        
                     }
                 }
                
+            }
+            if (Input.GetKeyDown(blinkKey))
+            {
+                if (blinkTimeStamp <= Time.time)
+                {
+                    BlinkInDirection(FindCurrentDirection());
+                    BlinkCleanup();
+                }
             }
             SetClamps();
             if (!isMelee)
@@ -224,6 +328,10 @@ public class Character : MonoBehaviour {
                 if (Input.GetKey(left))
                 {
                     transform.Translate(Vector3.left * Time.deltaTime * moveSpeed);
+                }
+                if (Input.GetKeyDown(attackClosest))
+                {
+                    AttackClosestEnemy(GameObject.Find("SpawnManager").GetComponent<SpawnManager>().enemies);
                 }
             }
             if (isMelee)

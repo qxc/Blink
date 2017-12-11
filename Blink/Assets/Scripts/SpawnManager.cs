@@ -8,8 +8,9 @@ public class SpawnManager : MonoBehaviour {
     public GameObject lingEnemy;
     public GameObject tankEnemy;
     public GameObject sniperEnemy;
+    public List<GameObject> enemies;
     private float spawnPeriod = 5f;
-    private float spawnDelay = 5f;
+    private float spawnDelay = 3f;
     int numEnemyTypes = 4;
 	// Use this for initialization
 	void Start () {
@@ -34,22 +35,31 @@ public class SpawnManager : MonoBehaviour {
             + (circleSize * Random.insideUnitCircle) + new Vector2(bufferDistance, bufferDistance);
         if (enemyType == 0)
         {
-            Instantiate(basicEnemy, spawnPosition, Quaternion.identity);
+            enemies.Add(Instantiate(basicEnemy, spawnPosition, Quaternion.identity));
         }
         if (enemyType == 1)
         {
-            Instantiate(lingEnemy, spawnPosition, Quaternion.identity);
+            enemies.Add(Instantiate(lingEnemy, spawnPosition, Quaternion.identity));
         }
         if (enemyType == 2)
         {
-            Instantiate(tankEnemy, spawnPosition, Quaternion.identity);
+            enemies.Add(Instantiate(tankEnemy, spawnPosition, Quaternion.identity));
         }
         if (enemyType == 3)
         {
-            Instantiate(sniperEnemy, spawnPosition, Quaternion.identity);
+            enemies.Add(Instantiate(sniperEnemy, spawnPosition, Quaternion.identity));
         }
+        /*foreach (GameObject enemy in enemies) {
+            Debug.Log(enemy.ToString());
+        }
+        */
     }
 
+    public void RemoveEnemy(GameObject enemy)
+    {
+        enemies.Remove(enemy);
+    }
+    
 	// Update is called once per frame
 	void Update () {
 		

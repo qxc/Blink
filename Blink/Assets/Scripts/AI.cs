@@ -79,10 +79,16 @@ public class AI : Character {
             life--;
             if (life <= 0)
             {
-                GameObject.Find("HUDManager").GetComponent<HUDManager>().changeScore(1);
-                Destroy(gameObject);
+                OnDeath();
             }
         }
+    }
+
+    protected void OnDeath()
+    {
+        GameObject.Find("HUDManager").GetComponent<HUDManager>().changeScore(1);
+        GameObject.Find("SpawnManager").GetComponent<SpawnManager>().RemoveEnemy(gameObject);
+        Destroy(gameObject);
     }
 
     public void damage(int amount)
