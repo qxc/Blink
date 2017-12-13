@@ -5,16 +5,15 @@ using UnityEngine;
 public class AI : Character {
 
     protected GameObject character;
-    protected float attackPeriod = 1.25f;
     protected float attackDelay = 1f;
-    protected float range = 5f;
     protected float size = 1f;
     
 	// Use this for initialization
 	void Start () {
+        attackCooldown = 2.5f;
         character = GameObject.Find("Character"); //Sets the character used for projectile tracking
         SetStats();
-        InvokeRepeating("attackCharacter", attackDelay, attackPeriod);
+        //InvokeRepeating("attackCharacter", attackDelay, attackCooldown);
         //InvokeRepeating("DebugTrackingProjectile", 0, 1f);
 
     }
@@ -23,10 +22,10 @@ public class AI : Character {
     {
         //life = 10;
         life = Random.Range(2, 4);
-        attackPeriod = Random.Range(.75f, 1.25f);
+        attackCooldown= Random.Range(2f, 3f);
         moveSpeed = Random.Range(2f, 4f);
         attackDelay = Random.Range(.25f, 2f);
-        range = Random.Range(4f, 7f);
+        attackRange = Random.Range(4f, 7f);
         float randSize = Random.Range(.75f, 1.25f);
         gameObject.transform.localScale = new Vector3(randSize, randSize);
     }
@@ -36,9 +35,9 @@ public class AI : Character {
     {
         life = Random.Range(2+intScaleFactor, 4+intScaleFactor);
         moveSpeed = Random.Range(2f+floatScaleFactor, 4f+floatScaleFactor);
-        range = Random.Range(4f+floatScaleFactor, 7f+floatScaleFactor);
+        attackRange = Random.Range(4f+floatScaleFactor, 7f+floatScaleFactor);
 
-        attackPeriod = Random.Range(.75f-Mathf.Log(floatScaleFactor), 1.25f-Mathf.Log(floatScaleFactor));
+        attackCooldown = Random.Range(.75f-Mathf.Log(floatScaleFactor), 1.25f-Mathf.Log(floatScaleFactor));
 
         attackDelay = Random.Range(.25f, 2f);
         float randSize = Random.Range(.75f, 1.25f);
@@ -48,12 +47,19 @@ public class AI : Character {
     // Update is called once per frame
     void Update () {
         moveTowardPlayer();
+        AttackCharacter();
 	}
 
-    protected void attackCharacter()
+    protected void AttackCharacter()
     {
-        if(Vector3.Distance(transform.position,character.transform.position) < range)
-            CreateProjectile(character);
+        if (attackTimeStamp <= Time.time)
+        {
+            if (Vector3.Distance(transform.position, character.transform.position) < attackRange)
+            {
+                CreateProjectile(character);
+                attackTimeStamp = Time.time + attackCooldown;
+            }
+        }
     }
 
     protected void DebugTrackingProjectile()

@@ -7,21 +7,22 @@ public class LingAI : AI {
 	// Use this for initialization
 	void Start () {
         character = GameObject.Find("Character"); //Sets the character used for projectile tracking
-        InvokeRepeating("attackCharacter", attackDelay, attackPeriod);
+        InvokeRepeating("attackCharacter", attackDelay, attackCooldown);
         SetStats();
 	}
     void Update()
     {
         moveTowardPlayer();
+        AttackCharacter();
     }
     void SetStats()
     {
         //Debug.Log("making a ling");
         life = Random.Range(1, 2);
-        attackPeriod = Random.Range(.2f, .5f);
+        attackCooldown = Random.Range(.2f, .5f);
         moveSpeed = Random.Range(5f, 7f);
         attackDelay = Random.Range(1f, 2f);
-        range = Random.Range(3f, 4f);
+        attackRange = Random.Range(3f, 4f);
         float randSize = Random.Range(.4f, .65f);
         gameObject.transform.localScale = new Vector3(randSize, randSize);
     }

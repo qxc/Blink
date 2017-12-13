@@ -9,16 +9,16 @@ public class Character : MonoBehaviour {
     protected List<Projectile> tracking = new List<Projectile>();
     public Projectile attack;
     bool paused = false;
-    protected int life = 10;
+    protected int life = 1;
     public GameObject HUDManager;
 
     private float blinkRange = 3;
     private float blinkCooldown = 1f;
     private float blinkTimeStamp;
 
-    private float attackRange = 4;
-    private float attackCooldown = 3f;
-    private float attackTimeStamp;
+    protected float attackRange = 4;
+    protected float attackCooldown = 3f;
+    protected float attackTimeStamp;
 
     //private float meleeCooldown = .5f;
     private int meleeDamage = 1;

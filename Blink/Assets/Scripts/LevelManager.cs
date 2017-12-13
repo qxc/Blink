@@ -8,7 +8,8 @@ public class LevelManager : MonoBehaviour
 
     public void changeScene(string level)
     {
-        if (level == "quit")
+        Debug.Log(level);
+        if (level == "Quit")
             Application.Quit();
         else
             SceneManager.LoadScene(level);

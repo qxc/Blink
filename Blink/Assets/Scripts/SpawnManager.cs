@@ -27,6 +27,11 @@ public class SpawnManager : MonoBehaviour {
         Debug.Log("Rounded Scale Factor is" + intScaleFactor);
         */
         //Debug.Log(Time.timeSinceLevelLoad);
+        if(Time.timeSinceLevelLoad >= 0)
+        {
+            CancelInvoke();
+            InvokeRepeating("SpawnEnemy", spawnDelay, spawnPeriod/2);
+        }
         int enemyType = Random.Range(0, numEnemyTypes);
         int circleSize = 4;
         int bufferDistance = 2;
@@ -39,6 +44,7 @@ public class SpawnManager : MonoBehaviour {
         }
         if (enemyType == 1)
         {
+            enemies.Add(Instantiate(lingEnemy, spawnPosition, Quaternion.identity));
             enemies.Add(Instantiate(lingEnemy, spawnPosition, Quaternion.identity));
         }
         if (enemyType == 2)
