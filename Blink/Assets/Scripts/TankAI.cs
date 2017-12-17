@@ -21,6 +21,7 @@ public class TankAI : AI {
         moveSpeed = 1.5f;
         size = 2f;
         attackRange = 3.5f;
+        attackTimeStamp = Time.time + attackCooldown;
         SetSize();
     }
     private void OnTriggerEnter2D(Collider2D collision)
