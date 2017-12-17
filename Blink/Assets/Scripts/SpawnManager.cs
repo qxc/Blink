@@ -9,9 +9,12 @@ public class SpawnManager : MonoBehaviour {
     public GameObject tankEnemy;
     public GameObject sniperEnemy;
     public List<GameObject> enemies;
-    private float spawnPeriod = 5f;
-    private float spawnDelay = 3f;
+    private float spawnPeriod = 4f;
+    private float spawnDelay = 2f;
     int numEnemyTypes = 4;
+
+    int timeForIncreasedPace = 60;
+    bool increasedPace = false;
 	// Use this for initialization
 	void Start () {
         InvokeRepeating("SpawnEnemy", spawnDelay, spawnPeriod);
@@ -27,10 +30,11 @@ public class SpawnManager : MonoBehaviour {
         Debug.Log("Rounded Scale Factor is" + intScaleFactor);
         */
         //Debug.Log(Time.timeSinceLevelLoad);
-        if(Time.timeSinceLevelLoad >= 0)
+        if(Time.timeSinceLevelLoad >= timeForIncreasedPace && !increasedPace)
         {
             CancelInvoke();
             InvokeRepeating("SpawnEnemy", spawnDelay, spawnPeriod/2);
+            increasedPace = true;
         }
         int enemyType = Random.Range(0, numEnemyTypes);
         int circleSize = 4;

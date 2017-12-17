@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
 
-    public void changeScene(string level)
+    public void ChangeScene(string level)
     {
-        Debug.Log(level);
+        //Debug.Log(level);
         if (level == "Quit")
             Application.Quit();
         else

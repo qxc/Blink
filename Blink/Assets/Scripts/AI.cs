@@ -6,28 +6,46 @@ public class AI : Character {
 
     protected GameObject character;
     protected float attackDelay = 1f;
-    protected float size = 1f;
+    protected float size;
+    protected int scoreChange = 1;
     
 	// Use this for initialization
 	void Start () {
-        attackCooldown = 2.5f;
+        InitialStats();
         character = GameObject.Find("Character"); //Sets the character used for projectile tracking
-        SetStats();
         //InvokeRepeating("attackCharacter", attackDelay, attackCooldown);
         //InvokeRepeating("DebugTrackingProjectile", 0, 1f);
 
     }
     //Each AI gets a random set of stats when it's created
-    void SetStats()
+    void InitialStats()
+    {
+        attackCooldown = 2.75f;
+        life = 2;
+        moveSpeed = 3f;
+        size = 1.1f;
+        attackRange = 5f;
+        attackTimeStamp = Time.time + attackCooldown;
+        SetSize();
+    }
+
+    protected void SetSize()
+    {
+        transform.localScale = new Vector3(size, size);
+    }
+
+    protected void RandomStats()
     {
         //life = 10;
-        life = Random.Range(2, 4);
-        attackCooldown= Random.Range(2f, 3f);
-        moveSpeed = Random.Range(2f, 4f);
-        attackDelay = Random.Range(.25f, 2f);
-        attackRange = Random.Range(4f, 7f);
-        float randSize = Random.Range(.75f, 1.25f);
+        //Debug.Log(life);
+        life = Random.Range(life-1, life+1);
+        //Debug.Log(life);
+        attackCooldown = Random.Range(attackCooldown-.5f, attackCooldown+.5f);
+        moveSpeed = Random.Range(moveSpeed-.25f, moveSpeed+.25f);
+        attackRange = Random.Range(attackRange-2, attackRange+2);
+        float randSize = Random.Range(size-.25f, size+.25f);
         gameObject.transform.localScale = new Vector3(randSize, randSize);
+        attackTimeStamp = Time.time + attackCooldown;
     }
     //First try at how might do scaling over time. Is this a good idea? 
     //Maybe better to just introduce new enemies
@@ -92,7 +110,8 @@ public class AI : Character {
 
     protected void OnDeath()
     {
-        GameObject.Find("HUDManager").GetComponent<HUDManager>().changeScore(1);
+        //Debug.Log("Thing died");
+        GameObject.Find("HUDManager").GetComponent<HUDManager>().changeScore(scoreChange);
         GameObject.Find("SpawnManager").GetComponent<SpawnManager>().RemoveEnemy(gameObject);
         Destroy(gameObject);
     }
@@ -103,8 +122,7 @@ public class AI : Character {
         life = life - amount;
         if (life <= 0)
         {
-            GameObject.Find("HUDManager").GetComponent<HUDManager>().changeScore(1);
-            Destroy(gameObject);
+            OnDeath();
         }
     }
 

@@ -6,25 +6,22 @@ public class SniperAI : AI {
 
 	// Use this for initialization
 	void Start () {
+        InitialStats();
         character = GameObject.Find("Character"); //Sets the character used for projectile tracking
-        InvokeRepeating("attackCharacter", attackDelay, attackCooldown);
-        SetStats();
 	}
     void Update()
     {
         moveTowardPlayer();
         AttackCharacter();
     }
-    void SetStats()
+    void InitialStats()
     {
-        //Debug.Log("making a sniper");
-        life = Random.Range(1, 2);
-        attackCooldown = Random.Range(.5f, 1f);
-        moveSpeed = Random.Range(.25f, 1f);
-        attackDelay = Random.Range(.5f, 1f);
-        attackRange = Random.Range(8f, 12f);
-        float randSize = Random.Range(1.25f, 1.5f);
-        gameObject.transform.localScale = new Vector3(randSize, randSize);
+        attackCooldown = 1.9f;
+        life = 1;
+        moveSpeed = 2f;
+        size = 1.25f;
+        attackRange = 10f;
+        SetSize();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

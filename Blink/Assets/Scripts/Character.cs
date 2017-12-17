@@ -23,6 +23,7 @@ public class Character : MonoBehaviour {
     //private float meleeCooldown = .5f;
     private int meleeDamage = 1;
     bool isMelee = false;
+    private float meleeSpeed = 10;
 
     //private int cameraZ = -1;
 
@@ -57,7 +58,7 @@ public class Character : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        FlipPause();
+        Time.timeScale = 1.0f;
         arenaRadius = GameObject.Find("Background").GetComponent<SetBackground>().getArenaRadius();
     }
 
@@ -99,22 +100,17 @@ public class Character : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isMelee)
+        if (collision.tag == "AIProjectile")
         {
-            if (collision.tag == "AIProjectile")
+            Destroy(collision.gameObject);
+            if (!isMelee)
             {
-                Destroy(collision.gameObject);
+                //Debug.Log("Hit by " + collision.name);
                 life--;
                 if (life <= 0)
                     RestartGame();
             }
         }
-        
-    }
-
-    private void BlinkInDirection()
-    {
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -128,7 +124,11 @@ public class Character : MonoBehaviour {
 
     private void RestartGame()
     {
-        GameObject.Find("LevelManager").GetComponent<LevelManager>().changeScene("Game");
+        Time.timeScale = 0.0f;
+        GameObject.Find("HUDManager").GetComponent<HUDManager>().LogGame();
+        GameObject.Find("MenuManager").GetComponent<MenuManager>().ShowDefeat();
+        gameObject.SetActive(false);
+        //GameObject.Find("LevelManager").GetComponent<LevelManager>().ChangeScene("Game");
     }
     void SetClamps()
     {
@@ -179,7 +179,7 @@ public class Character : MonoBehaviour {
                 //Debug.Log(distance);
                 if (distance <= attackRange)
                 {
-                    GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
+                    //GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
                     GameObject.Find("AttackCooldownManager").GetComponent<AttackBarCooldown>().Activate(attackCooldown);
                     CreateProjectile(closestEnemy);
                     attackTimeStamp = Time.time + attackCooldown;
@@ -238,7 +238,7 @@ public class Character : MonoBehaviour {
 
     void BlinkCleanup()
     {
-        GameObject.Find("BlinkCDIcon").GetComponent<CDIcon>().Activate(blinkCooldown);
+        //GameObject.Find("BlinkCDIcon").GetComponent<CDIcon>().Activate(blinkCooldown);
         GameObject.Find("BlinkCooldownManager").GetComponent<BarCooldown>().Activate(blinkCooldown);
         blinkTimeStamp = Time.time + blinkCooldown; // tells you when blink goes off cooldown
         DestroyTrackingProjectiles();
@@ -262,7 +262,7 @@ public class Character : MonoBehaviour {
                             //Debug.Log(distance + " to click when attacking");
                             if (distance <= attackRange)
                             {
-                                GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
+                                //GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
                                 GameObject.Find("AttackCooldownManager").GetComponent<AttackBarCooldown>().Activate(attackCooldown);
                                 CreateProjectile(hit.collider.gameObject);
                                 attackTimeStamp = Time.time + attackCooldown;
@@ -279,8 +279,8 @@ public class Character : MonoBehaviour {
                     Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
                     //Can't teleport onto another object
-                    if (hit.collider == null)
-                    {
+                    //if (hit.collider == null)
+                    //{
                         //Checks range, blinks to location if within range, otherwise blinks as close as possible
                         //float distance = Vector3.Distance(gameObject.transform.position, pos);
                         //Debug.Log(distance + " to click when blinking" );
@@ -298,7 +298,7 @@ public class Character : MonoBehaviour {
                             //Makes blink only work if use it within range
                             //transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1)));
                         
-                    }
+                    //}
                 }
                
             }
@@ -336,7 +336,7 @@ public class Character : MonoBehaviour {
             }
             if (isMelee)
             {
-                transform.Rotate(Vector3.forward * 15);
+                transform.Rotate(Vector3.forward * meleeSpeed);
                 if (transform.localRotation == Quaternion.Euler(0, 0, 0))
                     isMelee = false;
             }
@@ -344,7 +344,7 @@ public class Character : MonoBehaviour {
             {
                 if (Input.GetKeyDown(melee))
                 {
-                    transform.Rotate(Vector3.forward * 15);
+                    transform.Rotate(Vector3.forward * meleeSpeed);
                     isMelee = true;
                 }
 

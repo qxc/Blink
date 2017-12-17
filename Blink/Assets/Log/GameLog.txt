@@ -1,0 +1,41 @@
+Test
+Test
+Test
+12/13/2017 10:49:18 PMScore: 3 Time: 34
+12/14/2017 9:35:11 PM Score: Score: 0 Time: Time: 5
+12/14/2017 9:35:30 PM Score: Score: 0 Time: Time: 7
+12/14/2017 9:36:25 PM Score: Score: 0 Time: Time: 9
+12/14/2017 9:36:52 PM Score: Score: 0 Time: Time: 6
+12/14/2017 9:37:02 PM Score: Score: 0 Time: Time: 6
+12/14/2017 9:37:11 PM Score: Score: 0 Time: Time: 8
+12/14/2017 9:37:17 PM Score: Score: 0 Time: Time: 6
+12/14/2017 9:37:55 PM Score: Score: 0 Time: Time: 9
+12/14/2017 9:37:59 PM Score: Score: 0 Time: Time: 3
+12/14/2017 9:39:31 PM Score: Score: 1 Time: Time: 14
+12/14/2017 9:39:31 PM Score: Score: 1 Time: Time: 14
+12/14/2017 9:40:57 PM Score: Score: 1 Time: Time: 10
+12/14/2017 9:40:57 PM Score: Score: 1 Time: Time: 10
+12/14/2017 9:41:06 PM Score: Score: 2 Time: Time: 9
+12/14/2017 9:41:28 PM Score: Score: 3 Time: Time: 10
+12/14/2017 9:41:38 PM Score: Score: 1 Time: Time: 9
+12/14/2017 9:42:02 PM Score: Score: 5 Time: Time: 22
+12/14/2017 9:42:02 PM Score: Score: 5 Time: Time: 22
+12/14/2017 9:42:02 PM Score: Score: 5 Time: Time: 22
+12/14/2017 9:42:02 PM Score: Score: 5 Time: Time: 22
+12/14/2017 9:43:29 PM Score: Score: 3 Time: Time: 23
+12/14/2017 9:43:42 PM Score: Score: 3 Time: Time: 12
+12/14/2017 9:44:03 PM Score: Score: 7 Time: Time: 20
+12/14/2017 9:44:17 PM Score: Score: 2 Time: Time: 12
+12/14/2017 9:44:33 PM Score: Score: 4 Time: Time: 16
+12/14/2017 9:44:33 PM Score: Score: 4 Time: Time: 16
+12/14/2017 9:45:09 PM Score: Score: 7 Time: Time: 29
+12/14/2017 9:46:48 PM Score: Score: 10 Time: Time: 26
+12/14/2017 9:46:48 PM Score: Score: 10 Time: Time: 26
+12/14/2017 9:49:18 PM Score: Score: 3 Time: Time: 14
+12/14/2017 9:53:14 PM Score: Score: 0 Time: Time: 10
+12/14/2017 9:53:21 PM Score: Score: 0 Time: Time: 6
+12/14/2017 9:54:12 PM Score: Score: 2 Time: Time: 13
+12/14/2017 9:56:26 PM Score: Score: 2 Time: Time: 22
+12/14/2017 9:56:26 PM Score: Score: 2 Time: Time: 22
+12/14/2017 9:56:26 PM Score: Score: 2 Time: Time: 22
+12/14/2017 9:57:58 PM Score: Score: 2 Time: Time: 11

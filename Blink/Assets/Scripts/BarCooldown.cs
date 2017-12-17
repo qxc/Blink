@@ -12,7 +12,8 @@ public class BarCooldown : MonoBehaviour
     protected float duration;
     protected float changeStep;
     protected float repeatPeriod = .05f;
-    protected float verticalOffset = .65f;
+    protected float verticalOffset = .7f;
+    protected float maxSize = .75f;
     protected Character character;
     // Use this for initialization
     void Start()
@@ -32,10 +33,10 @@ public class BarCooldown : MonoBehaviour
     public void Activate(float cooldown)
     {
         duration = cooldown;
-        changeStep = repeatPeriod / duration;
+        changeStep = maxSize*(repeatPeriod / duration);
         InvokeRepeating("ChangeSize", 0f, repeatPeriod);
         fill.rectTransform.localScale = new Vector3(0, 1, 0);
-        bar.rectTransform.localScale = new Vector3(1, 1, 0);
+        bar.rectTransform.localScale = new Vector3(maxSize, 1, 0);
     }
 
     public void ChangeSize()
@@ -43,7 +44,7 @@ public class BarCooldown : MonoBehaviour
         //Debug.Log("changing size by " + changeStep);
         fill.rectTransform.localScale += new Vector3(changeStep, 0, 0);
 
-        if (fill.transform.localScale.x >= 1)
+        if (fill.transform.localScale.x >= maxSize)
         {
             CancelInvoke();
             fill.rectTransform.localScale = new Vector3(0, 0, 0);
