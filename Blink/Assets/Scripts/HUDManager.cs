@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour {
-
+    public SpawnManager spawnManager;
     public Text score;
     int currentScore;
     public Text timeUI;
@@ -15,7 +15,7 @@ public class HUDManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        timeUI.text = "Time: " + Mathf.RoundToInt(Time.timeSinceLevelLoad).ToString();
+        timeUI.text = "Time: " + Mathf.RoundToInt(spawnManager.timer).ToString();
     }
 
     void GameEnd()
