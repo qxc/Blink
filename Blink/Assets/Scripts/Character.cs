@@ -23,7 +23,7 @@ public class Character : MonoBehaviour {
     //private float meleeCooldown = .5f;
     private int meleeDamage = 2;
     bool isMelee = false;
-    private float meleeSpeed = 24;
+    private float meleeSpeed = .3f;
 
     //private int cameraZ = -1;
 
@@ -37,6 +37,8 @@ public class Character : MonoBehaviour {
     string melee = "q";
     string attackClosest = "j";
     string blinkKey = "k";
+
+	SpawnManager spawnManager;
 
     public GameObject marker;
 
@@ -60,6 +62,7 @@ public class Character : MonoBehaviour {
     void Start () {
         Time.timeScale = 1.0f;
         arenaRadius = GameObject.Find("Background").GetComponent<SetBackground>().getArenaRadius();
+		spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
     }
 
     //Pauses if unpaused, unpauses if paused
@@ -111,15 +114,13 @@ public class Character : MonoBehaviour {
                     RestartGame();
             //}
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //Debug.Log(collision.gameObject.name);
-        if (collision.gameObject.tag == "AICharacter" && isMelee)
-        {
-            collision.gameObject.GetComponent<AI>().damage(meleeDamage);
-        }
+		if (collision.gameObject.tag == "AICharacter" && isMelee)
+		{
+			AI ai = collision.gameObject.GetComponent<AI>();
+			if (!ai.meleeDamaged) ai.damage(meleeDamage);
+			ai.meleeDamaged = true;
+			
+		}
     }
 
     private void RestartGame()
@@ -336,19 +337,25 @@ public class Character : MonoBehaviour {
             }
             if (isMelee)
             {
-                transform.Rotate(Vector3.forward * meleeSpeed);
-                if (transform.localRotation == Quaternion.Euler(0, 0, 0))
-                    isMelee = false;
+				transform.Rotate(Vector3.forward * (360f / meleeSpeed) * Time.deltaTime);
             }
             else
             {
                 if (Input.GetKeyDown(melee))
                 {
-                    transform.Rotate(Vector3.forward * meleeSpeed);
                     isMelee = true;
+					Invoke("MeleeEnd", meleeSpeed);
                 }
 
             }
         }
     }
+
+	void MeleeEnd() {
+		foreach (GameObject enemy in spawnManager.enemies) {
+			enemy.GetComponent<AI>().meleeDamaged = false;
+		}
+		transform.rotation = new Quaternion(0, 0, 0, 0);
+		isMelee = false;
+	}
 }

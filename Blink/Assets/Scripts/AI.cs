@@ -8,6 +8,7 @@ public class AI : Character {
     protected float attackDelay = 1f;
     protected float size;
     protected int scoreChange = 1;
+	public bool meleeDamaged = false;
     
 	// Use this for initialization
 	void Start () {
