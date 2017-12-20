@@ -21,9 +21,9 @@ public class Character : MonoBehaviour {
     protected float attackTimeStamp;
 
     //private float meleeCooldown = .5f;
-    private int meleeDamage = 1;
+    private int meleeDamage = 2;
     bool isMelee = false;
-    private float meleeSpeed = 10;
+    private float meleeSpeed = 24;
 
     //private int cameraZ = -1;
 
@@ -103,13 +103,13 @@ public class Character : MonoBehaviour {
         if (collision.tag == "AIProjectile")
         {
             Destroy(collision.gameObject);
-            if (!isMelee)
-            {
+            //if (!isMelee)
+            //{
                 //Debug.Log("Hit by " + collision.name);
                 life--;
                 if (life <= 0)
                     RestartGame();
-            }
+            //}
         }
     }
 
