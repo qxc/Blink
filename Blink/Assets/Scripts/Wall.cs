@@ -8,7 +8,6 @@ public class Wall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //print("hit AI");
         if (collision.tag == "PlayerProjectile" || collision.tag == "AIProjectile")
         {
             Destroy(collision.gameObject);
@@ -16,6 +15,7 @@ public class Wall : MonoBehaviour
             life--;
             if (life <= 0)
             {
+                GameObject.Find("WallManager").GetComponent<WallManager>().walls.Remove(gameObject);
                 Destroy(gameObject);
             }
         }

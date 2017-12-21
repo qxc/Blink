@@ -224,7 +224,6 @@
     <Compile Include="Assets\Scripts\AttackRadius.cs" />
     <Compile Include="Assets\Scripts\BarCooldown.cs" />
     <Compile Include="Assets\Scripts\BlinkRadius.cs" />
-    <Compile Include="Assets\Scripts\BuildLevel.cs" />
     <Compile Include="Assets\Scripts\CameraManager.cs" />
     <Compile Include="Assets\Scripts\CDIcon.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
@@ -233,7 +232,6 @@
     <Compile Include="Assets\Scripts\HUDManager.cs" />
     <Compile Include="Assets\Scripts\LevelManager.cs" />
     <Compile Include="Assets\Scripts\LingAI.cs" />
-    <Compile Include="Assets\Scripts\MeleeRadius.cs" />
     <Compile Include="Assets\Scripts\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\SetBackground.cs" />
@@ -241,6 +239,7 @@
     <Compile Include="Assets\Scripts\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\TankAI.cs" />
     <Compile Include="Assets\Scripts\Wall.cs" />
+    <Compile Include="Assets\Scripts\WallManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Log\GameLog.txt" />

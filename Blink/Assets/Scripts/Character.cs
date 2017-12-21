@@ -103,6 +103,7 @@ public class Character : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //Debug.Log(collision.name);
         if (collision.tag == "AIProjectile")
         {
             Destroy(collision.gameObject);
@@ -114,12 +115,18 @@ public class Character : MonoBehaviour {
                     RestartGame();
             //}
         }
+        /*
+        Debug.Log("Collided");
+        Debug.Log(isMelee);
+        Debug.Log(collision.gameObject.tag);
+        */
 		if (collision.gameObject.tag == "AICharacter" && isMelee)
 		{
+            //Debug.Log("AI & IsMelee");
 			AI ai = collision.gameObject.GetComponent<AI>();
-			if (!ai.meleeDamaged) ai.damage(meleeDamage);
+			if (!ai.meleeDamaged)
+                ai.damage(meleeDamage);
 			ai.meleeDamaged = true;
-			
 		}
     }
 
@@ -277,8 +284,8 @@ public class Character : MonoBehaviour {
                 if (blinkTimeStamp <= Time.time)
                 {
                     //Converts mouse position to world units for movement purposes
-                    Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+                    //Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    //RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
                     //Can't teleport onto another object
                     //if (hit.collider == null)
                     //{

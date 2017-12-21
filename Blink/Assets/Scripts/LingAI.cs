@@ -21,7 +21,7 @@ public class LingAI : AI {
         moveSpeed = 6f;
         size = .8f;
         attackRange = 3f;
-        attackTimeStamp = Time.time + attackCooldown;
+        attackTimeStamp = Time.time + attackDelay;
         SetSize();
     }
     private void OnTriggerEnter2D(Collider2D collision)

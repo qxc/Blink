@@ -21,7 +21,7 @@ public class SniperAI : AI {
         moveSpeed = 2f;
         size = 1.25f;
         attackRange = 10f;
-        attackTimeStamp = Time.time + attackCooldown;
+        attackTimeStamp = Time.time + attackDelay;
         SetSize();
     }
     private void OnTriggerEnter2D(Collider2D collision)

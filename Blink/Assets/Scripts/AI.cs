@@ -8,7 +8,9 @@ public class AI : Character {
     protected float attackDelay = 1f;
     protected float size;
     protected int scoreChange = 1;
-	public bool meleeDamaged = false;
+    protected float chargeDelay = .75f;
+    public bool meleeDamaged = false;
+    
     
 	// Use this for initialization
 	void Start () {
@@ -26,7 +28,7 @@ public class AI : Character {
         moveSpeed = 3f;
         size = 1.1f;
         attackRange = 5f;
-        attackTimeStamp = Time.time + attackCooldown;
+        attackTimeStamp = Time.time + attackDelay;
         SetSize();
     }
 
@@ -48,20 +50,6 @@ public class AI : Character {
         gameObject.transform.localScale = new Vector3(randSize, randSize);
         attackTimeStamp = Time.time + attackCooldown;
     }
-    //First try at how might do scaling over time. Is this a good idea? 
-    //Maybe better to just introduce new enemies
-    public void Initialize(int intScaleFactor, float floatScaleFactor)
-    {
-        life = Random.Range(2+intScaleFactor, 4+intScaleFactor);
-        moveSpeed = Random.Range(2f+floatScaleFactor, 4f+floatScaleFactor);
-        attackRange = Random.Range(4f+floatScaleFactor, 7f+floatScaleFactor);
-
-        attackCooldown = Random.Range(.75f-Mathf.Log(floatScaleFactor), 1.25f-Mathf.Log(floatScaleFactor));
-
-        attackDelay = Random.Range(.25f, 2f);
-        float randSize = Random.Range(.75f, 1.25f);
-        gameObject.transform.localScale = new Vector3(randSize, randSize);
-    }
 
     // Update is called once per frame
     void Update () {
@@ -69,16 +57,28 @@ public class AI : Character {
         AttackCharacter();
 	}
 
+    protected void Attack()
+    {
+        CreateProjectile(character);
+        gameObject.GetComponent<Renderer>().material.color = Color.white;
+    }
+
     protected void AttackCharacter()
     {
         if (attackTimeStamp <= Time.time)
         {
             if (Vector3.Distance(transform.position, character.transform.position) < attackRange)
             {
-                CreateProjectile(character);
                 attackTimeStamp = Time.time + attackCooldown;
+                ChargeAttack();
+                Invoke("Attack", chargeDelay);
             }
         }
+    }
+
+    protected void ChargeAttack()
+    {
+        gameObject.GetComponent<Renderer>().material.color = Color.black;
     }
 
     protected void DebugTrackingProjectile()

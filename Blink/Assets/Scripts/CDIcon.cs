@@ -12,14 +12,12 @@ public class CDIcon : MonoBehaviour
     float colorStep;
     float repeatPeriod = .05f;
     Image img;
-    Character character;
+    //Character character;
     // Use this for initialization
     void Start()
     {
         img = GetComponent<Image>();
-        character = GameObject.Find("Character").GetComponent<Character>();
-
-
+        //character = GameObject.Find("Character").GetComponent<Character>();
     }
 
     public void Activate(float cooldown)

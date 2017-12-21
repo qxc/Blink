@@ -37,6 +37,10 @@ public class HUDManager : MonoBehaviour {
 
     public void LogGame()
     {
-        GameObject.Find("GameLogger").GetComponent<GameLogger>().WriteGameLog(score.text, timeUI.text);
+        string [] tempScore = score.text.Split(' ');
+        string splitScore = tempScore[1];
+        string[] tempTime = timeUI.text.Split(' ');
+        string splitTime = tempTime[1];
+        GameObject.Find("GameLogger").GetComponent<GameLogger>().WriteGameLog(splitScore, splitTime);
     }
 }
