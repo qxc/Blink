@@ -119,6 +119,7 @@ public class AI : Character {
 
     public void damage(int amount)
     {
+        //Debug.Log("Damaged");
         //Debug.Log(life);
         life = life - amount;
         if (life <= 0)

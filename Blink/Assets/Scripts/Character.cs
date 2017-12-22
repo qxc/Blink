@@ -130,6 +130,23 @@ public class Character : MonoBehaviour {
 		}
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "AICharacter" && isMelee)
+        {
+            //Debug.Log("AI & IsMelee");
+            AI ai = collision.gameObject.GetComponent<AI>();
+            if (!ai.meleeDamaged)
+                ai.damage(meleeDamage);
+            ai.meleeDamaged = true;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        Debug.Log("Currently touching trigger");
+    }
+
     private void RestartGame()
     {
         Time.timeScale = 0.0f;

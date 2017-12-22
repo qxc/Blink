@@ -1374,8 +1374,6 @@ GameObject:
   - component: {fileID: 1225835545}
   - component: {fileID: 1225835544}
   - component: {fileID: 1225835543}
-  - component: {fileID: 1225835547}
-  - component: {fileID: 1225835548}
   m_Layer: 0
   m_Name: Character
   m_TagString: PlayerCharacter
@@ -1490,36 +1488,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!70 &1225835547
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1225835542}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.01, y: 1.4}
-  m_Direction: 0
---- !u!70 &1225835548
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1225835542}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.4, y: 0.01}
-  m_Direction: 1
 --- !u!1 &1292014769
 GameObject:
   m_ObjectHideFlags: 0
