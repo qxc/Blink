@@ -8,7 +8,7 @@ public class AI : Character {
     protected float attackDelay = 1f;
     protected float size;
     protected int scoreChange = 1;
-    protected float chargeDelay = .75f;
+    protected float chargeDelay = 1f;
     public bool meleeDamaged = false;
     
     
@@ -23,11 +23,11 @@ public class AI : Character {
     //Each AI gets a random set of stats when it's created
     void InitialStats()
     {
-        attackCooldown = 2.75f;
-        life = 2;
-        moveSpeed = 3f;
+        attackCooldown = 4f;
+        life = 1;
+        moveSpeed = 2f;
         size = 1.1f;
-        attackRange = 5f;
+        attackRange = 4f;
         attackTimeStamp = Time.time + attackDelay;
         SetSize();
     }
@@ -53,7 +53,7 @@ public class AI : Character {
 
     // Update is called once per frame
     void Update () {
-        moveTowardPlayer();
+        MoveTowardPlayer();
         AttackCharacter();
 	}
 
@@ -89,7 +89,7 @@ public class AI : Character {
         }
     }
 
-    protected void moveTowardPlayer()
+    protected void MoveTowardPlayer()
     {
         transform.position = Vector3.MoveTowards(transform.position, character.transform.position, .5f* moveSpeed * Time.deltaTime);
     }
@@ -112,7 +112,7 @@ public class AI : Character {
     protected void OnDeath()
     {
         //Debug.Log("Thing died");
-        GameObject.Find("HUDManager").GetComponent<HUDManager>().changeScore(scoreChange);
+        GameObject.Find("HUDManager").GetComponent<HUDManager>().ChangeScore(scoreChange);
         GameObject.Find("SpawnManager").GetComponent<SpawnManager>().RemoveEnemy(gameObject);
         Destroy(gameObject);
     }

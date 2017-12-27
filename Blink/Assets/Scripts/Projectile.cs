@@ -36,6 +36,8 @@ public class Projectile : MonoBehaviour {
     */
     // Update is called once per frame
     void Update () {
+        //Debug.Log("WhynoRotate");
+        transform.Rotate(Vector3.back *1000 * Time.deltaTime);
         if (target == null)
         {
             //Turns 'dead' projectiles a different color

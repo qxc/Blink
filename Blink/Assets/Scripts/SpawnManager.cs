@@ -9,10 +9,12 @@ public class SpawnManager : MonoBehaviour {
     public GameObject tankEnemy;
     public GameObject sniperEnemy;
     public List<GameObject> enemies;
-    private float spawnDelay = 2f;
+    
+    float bufferDistance = 4f;
 
     public float timer = 0f;
     public float spawnPeriod = 4f;
+    private float spawnDelay = 2f;
     public int enemyCap = 4;
     public int numEnemyTypes = 0;
 
@@ -27,26 +29,43 @@ public class SpawnManager : MonoBehaviour {
         timer += Time.deltaTime;
     }
 
+    public Vector2 RandomPositionNearCharacter()
+    {
+        Vector2 randomSpawn = Random.insideUnitCircle;
+        randomSpawn.Normalize();
+        randomSpawn = randomSpawn * bufferDistance;
+        return new Vector2(character.transform.position.x, character.transform.position.y) + randomSpawn;
+    }
+
     public void SpawnEnemy()
     {
+        //Debug.Log("Spawning Enemy");
+        //Debug.Log(enemies.Count + " - count and cap " + enemyCap);
         if (enemies.Count < enemyCap) {
+            //Debug.Log("Below cap");
             int enemyType = Random.Range(0, numEnemyTypes);
-            int circleSize = 4;
-            int bufferDistance = 2;
             //Chooses a random location within a certain distance of the player and spawns there
-            Vector2 spawnPosition = new Vector2(character.transform.position.x, character.transform.position.y)
-                + (circleSize * Random.insideUnitCircle) + new Vector2(bufferDistance, bufferDistance);
-            if (enemyType == 0)
-                InstantiateEnemy(basicEnemy, spawnPosition);
-            if (enemyType == 1)
+            //Debug.Log(randomSpawn);
+            
+            float numEnemySpawn = Mathf.Min(3f, timer / 13f);
+            for (int i = 0; i < numEnemySpawn; i++)
             {
-                InstantiateEnemy(lingEnemy, spawnPosition);
-                InstantiateEnemy(lingEnemy, spawnPosition);
+                Vector2 spawnPosition = RandomPositionNearCharacter();
+                if (enemyType == 0)
+                {
+                    InstantiateEnemy(basicEnemy, spawnPosition);
+                }
+
+                if (enemyType == 1)
+                {
+                    InstantiateEnemy(lingEnemy, spawnPosition);
+                    InstantiateEnemy(lingEnemy, spawnPosition);
+                }
+                if (enemyType == 2)
+                    InstantiateEnemy(tankEnemy, spawnPosition);
+                if (enemyType == 3)
+                    InstantiateEnemy(sniperEnemy, spawnPosition);
             }
-            if (enemyType == 2)
-                InstantiateEnemy(tankEnemy, spawnPosition);
-            if (enemyType == 3)
-                InstantiateEnemy(sniperEnemy, spawnPosition);
         }
         SetSpawnPeriod();
         SetNumEnemyTypes();
@@ -75,7 +94,7 @@ public class SpawnManager : MonoBehaviour {
 
     void SetEnemyCap()
     {
-        enemyCap = Mathf.Min(30, Mathf.RoundToInt(timer / 10)); 
+        enemyCap = Mathf.Min(30, Mathf.RoundToInt(timer / 5)); 
     }
         
 }

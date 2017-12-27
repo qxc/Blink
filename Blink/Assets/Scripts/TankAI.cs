@@ -11,13 +11,13 @@ public class TankAI : AI {
 	}
     void Update()
     {
-        moveTowardPlayer();
+        MoveTowardPlayer();
         AttackCharacter();
     }
     void InitialStats()
     {
         attackCooldown = 2.75f;
-        life = 6;
+        life = 4;
         moveSpeed = 1.5f;
         size = 2f;
         attackRange = 3.5f;

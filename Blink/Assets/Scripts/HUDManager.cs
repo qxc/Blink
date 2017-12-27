@@ -28,7 +28,7 @@ public class HUDManager : MonoBehaviour {
         //Disable all controls besides clicking (destroy character? Set character inactive?)
     }   
 
-    public void changeScore(int change)
+    public void ChangeScore(int change)
     {
         //Debug.Log("Score changed by " + change);
         currentScore = currentScore + change;

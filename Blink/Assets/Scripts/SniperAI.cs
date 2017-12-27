@@ -11,7 +11,7 @@ public class SniperAI : AI {
 	}
     void Update()
     {
-        moveTowardPlayer();
+        MoveTowardPlayer();
         AttackCharacter();
     }
     void InitialStats()

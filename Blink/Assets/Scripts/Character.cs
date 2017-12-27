@@ -9,15 +9,15 @@ public class Character : MonoBehaviour {
     protected List<Projectile> tracking = new List<Projectile>();
     public Projectile attack;
     bool paused = false;
-    protected int life = 1;
+    protected int life = 100;
     public GameObject HUDManager;
 
     private float blinkRange = 3;
-    private float blinkCooldown = 1f;
+    private float blinkCooldown = .5f;
     private float blinkTimeStamp;
 
     protected float attackRange = 4;
-    protected float attackCooldown = 3f;
+    protected float attackCooldown = .75f;
     protected float attackTimeStamp;
 
     //private float meleeCooldown = .5f;
@@ -144,7 +144,7 @@ public class Character : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        Debug.Log("Currently touching trigger");
+        //Debug.Log("Currently touching trigger");
     }
 
     private void RestartGame()
@@ -331,8 +331,12 @@ public class Character : MonoBehaviour {
             {
                 if (blinkTimeStamp <= Time.time)
                 {
-                    BlinkInDirection(FindCurrentDirection());
-                    BlinkCleanup();
+                    string direction = FindCurrentDirection();
+                    if (direction != "None") {
+                        BlinkInDirection(direction);
+                        BlinkCleanup();
+                    }
+                    
                 }
             }
             SetClamps();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class MenuManager : MonoBehaviour
     public Text mainmenu;
     public Text quit;
     public Image defeatBackground;
+
+    string pause;
 
     List<Text> allText = new List<Text>();
     void Start()
@@ -42,6 +45,6 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+  
     }
 }

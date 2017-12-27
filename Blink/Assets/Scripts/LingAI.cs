@@ -11,7 +11,7 @@ public class LingAI : AI {
 	}
     void Update()
     {
-        moveTowardPlayer();
+        MoveTowardPlayer();
         AttackCharacter();
     }
     void InitialStats()
