@@ -123,9 +123,9 @@ public class Character : MonoBehaviour {
 		if (collision.gameObject.tag == "AICharacter" && isMelee)
 		{
             //Debug.Log("AI & IsMelee");
-			AI ai = collision.gameObject.GetComponent<AI>();
+			BasicAI ai = collision.gameObject.GetComponent<BasicAI>();
 			if (!ai.meleeDamaged)
-                ai.damage(meleeDamage);
+                ai.Damage(meleeDamage);
 			ai.meleeDamaged = true;
 		}
     }
@@ -135,9 +135,9 @@ public class Character : MonoBehaviour {
         if (collision.gameObject.tag == "AICharacter" && isMelee)
         {
             //Debug.Log("AI & IsMelee");
-            AI ai = collision.gameObject.GetComponent<AI>();
+            BasicAI ai = collision.gameObject.GetComponent<BasicAI>();
             if (!ai.meleeDamaged)
-                ai.damage(meleeDamage);
+                ai.Damage(meleeDamage);
             ai.meleeDamaged = true;
         }
     }
@@ -381,7 +381,7 @@ public class Character : MonoBehaviour {
 
 	void MeleeEnd() {
 		foreach (GameObject enemy in spawnManager.enemies) {
-			enemy.GetComponent<AI>().meleeDamaged = false;
+			enemy.GetComponent<BasicAI>().meleeDamaged = false;
 		}
 		transform.rotation = new Quaternion(0, 0, 0, 0);
 		isMelee = false;

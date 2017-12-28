@@ -219,10 +219,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AI.cs" />
     <Compile Include="Assets\Scripts\AttackBarCooldown.cs" />
     <Compile Include="Assets\Scripts\AttackRadius.cs" />
     <Compile Include="Assets\Scripts\BarCooldown.cs" />
+    <Compile Include="Assets\Scripts\BasicAI.cs" />
     <Compile Include="Assets\Scripts\BlinkRadius.cs" />
     <Compile Include="Assets\Scripts\CameraManager.cs" />
     <Compile Include="Assets\Scripts\CDIcon.cs" />

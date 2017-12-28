@@ -47,7 +47,7 @@ public class SpawnManager : MonoBehaviour {
             //Chooses a random location within a certain distance of the player and spawns there
             //Debug.Log(randomSpawn);
             
-            float numEnemySpawn = Mathf.Min(3f, timer / 13f);
+            float numEnemySpawn = Mathf.Min(3f, timer / 16f);
             for (int i = 0; i < numEnemySpawn; i++)
             {
                 Vector2 spawnPosition = RandomPositionNearCharacter();
@@ -94,7 +94,7 @@ public class SpawnManager : MonoBehaviour {
 
     void SetEnemyCap()
     {
-        enemyCap = Mathf.Min(30, Mathf.RoundToInt(timer / 5)); 
+        enemyCap = Mathf.Min(30, Mathf.RoundToInt(timer / 7)); 
     }
         
 }

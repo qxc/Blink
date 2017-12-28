@@ -2,30 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI : Character {
+public class BasicAI : Character {
 
     protected GameObject character;
     protected float attackDelay = 1f;
     protected float size;
     protected int scoreChange = 1;
     protected float chargeDelay = 1f;
+
+    protected float minDistance = 1.5f;
+
     public bool meleeDamaged = false;
     
     
 	// Use this for initialization
 	void Start () {
-        InitialStats();
-        character = GameObject.Find("Character"); //Sets the character used for projectile tracking
+        Init(); //Sets the character used for projectile tracking
         //InvokeRepeating("attackCharacter", attackDelay, attackCooldown);
         //InvokeRepeating("DebugTrackingProjectile", 0, 1f);
 
+    }
+
+    void Init()
+    {
+        InitialStats();
+        character = GameObject.Find("Character"); //Sets the character used for projectile tracking
     }
     //Each AI gets a random set of stats when it's created
     void InitialStats()
     {
         attackCooldown = 4f;
         life = 1;
-        moveSpeed = 2f;
+        moveSpeed = 1f;
         size = 1.1f;
         attackRange = 4f;
         attackTimeStamp = Time.time + attackDelay;
@@ -52,10 +60,21 @@ public class AI : Character {
     }
 
     // Update is called once per frame
-    void Update () {
-        MoveTowardPlayer();
+    protected void Update () {
+        //Debug.Log(gameObject.name + " name and " + minDistance);
+        if (CheckDistanceToPlayer() > minDistance)
+        {
+            MoveTowardPlayer();
+        }
+        else
+            MoveAwayFromPlayer();
         AttackCharacter();
-	}
+    }
+
+    float CheckDistanceToPlayer()
+    {
+        return Vector2.Distance(gameObject.transform.position, character.transform.position);
+    }
 
     protected void Attack()
     {
@@ -91,8 +110,14 @@ public class AI : Character {
 
     protected void MoveTowardPlayer()
     {
-        transform.position = Vector3.MoveTowards(transform.position, character.transform.position, .5f* moveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, character.transform.position, moveSpeed * Time.deltaTime);
     }
+
+    protected void MoveAwayFromPlayer()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, character.transform.position, -moveSpeed * Time.deltaTime);
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -117,7 +142,7 @@ public class AI : Character {
         Destroy(gameObject);
     }
 
-    public void damage(int amount)
+    public void Damage(int amount)
     {
         //Debug.Log("Damaged");
         //Debug.Log(life);
@@ -128,7 +153,7 @@ public class AI : Character {
         }
     }
 
-    public void addTrackingProjectile(Projectile incomingProjectile)
+    public void AddTrackingProjectile(Projectile incomingProjectile)
     {
         tracking.Add(incomingProjectile);
     }
