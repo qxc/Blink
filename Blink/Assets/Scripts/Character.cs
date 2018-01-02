@@ -9,7 +9,7 @@ public class Character : MonoBehaviour {
     protected List<Projectile> tracking = new List<Projectile>();
     public Projectile attack;
     bool paused = false;
-    protected int life = 100;
+    protected int life = 1;
     public GameObject HUDManager;
 
     private float blinkRange = 3;
@@ -25,6 +25,10 @@ public class Character : MonoBehaviour {
     bool isMelee = false;
     private float meleeSpeed = .3f;
 
+    bool isInvulnerable = false;
+    float invulnerablePeriod = .5f;
+    float invulnerableTransparency = .5f;
+
     //private int cameraZ = -1;
 
     private float arenaRadius;
@@ -37,8 +41,10 @@ public class Character : MonoBehaviour {
     string melee = "q";
     string attackClosest = "j";
     string blinkKey = "k";
+    string quit = "escape";
 
 	SpawnManager spawnManager;
+    List<GameObject> enemies;
 
     public GameObject marker;
 
@@ -63,6 +69,7 @@ public class Character : MonoBehaviour {
         Time.timeScale = 1.0f;
         arenaRadius = GameObject.Find("Background").GetComponent<SetBackground>().getArenaRadius();
 		spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        enemies = GameObject.Find("SpawnManager").GetComponent<SpawnManager>().enemies;
     }
 
     //Pauses if unpaused, unpauses if paused
@@ -104,7 +111,7 @@ public class Character : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Debug.Log(collision.name);
-        if (collision.tag == "AIProjectile")
+        if (collision.tag == "AIProjectile" && !isInvulnerable && collision.gameObject.GetComponent<Projectile>().hasTarget)
         {
             Destroy(collision.gameObject);
             //if (!isMelee)
@@ -137,9 +144,20 @@ public class Character : MonoBehaviour {
             //Debug.Log("AI & IsMelee");
             BasicAI ai = collision.gameObject.GetComponent<BasicAI>();
             if (!ai.meleeDamaged)
+            {
                 ai.Damage(meleeDamage);
+                isInvulnerable = true;
+                gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, invulnerableTransparency);
+                Invoke("TurnOffInvulnerable", invulnerablePeriod);
+            }
             ai.meleeDamaged = true;
         }
+    }
+
+    void TurnOffInvulnerable()
+    {
+        isInvulnerable = false;
+        gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -193,6 +211,25 @@ public class Character : MonoBehaviour {
         }
         return closest;
     }
+    GameObject GetClosestEnemyToPosition(List<GameObject> enemies, Vector3 currentPos)
+    {
+        GameObject closest = null;
+        float minDist = Mathf.Infinity;
+        foreach (GameObject e in enemies)
+        {
+            if (e != null)
+            {
+                float dist = Vector3.Distance(e.transform.position, currentPos);
+                if (dist < minDist)
+                {
+                    closest = e;
+                    minDist = dist;
+                }
+            }
+        }
+        return closest;
+    }
+
     void AttackClosestEnemy(List<GameObject> enemies)
     {
         if (attackTimeStamp <= Time.time)
@@ -205,9 +242,7 @@ public class Character : MonoBehaviour {
                 if (distance <= attackRange)
                 {
                     //GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
-                    GameObject.Find("AttackCooldownManager").GetComponent<AttackBarCooldown>().Activate(attackCooldown);
-                    CreateProjectile(closestEnemy);
-                    attackTimeStamp = Time.time + attackCooldown;
+                    AttackEnemy(closestEnemy);
                     //Debug.Log("I'm hitting " + hit.collider.name);
                 }
             }
@@ -261,10 +296,19 @@ public class Character : MonoBehaviour {
             transform.position = transform.position + new Vector3(blinkRange, -blinkRange, 0);
     }
 
+    void AttackEnemy(GameObject enemy)
+    {
+        GameObject.Find("IconCDManager").GetComponent<AttackIcon>().Activate(attackCooldown);
+        //GameObject.Find("AttackCooldownManager").GetComponent<AttackBarCooldown>().Activate(attackCooldown);
+        CreateProjectile(enemy);
+        attackTimeStamp = Time.time + attackCooldown;
+    }
+
     void BlinkCleanup()
     {
         //GameObject.Find("BlinkCDIcon").GetComponent<CDIcon>().Activate(blinkCooldown);
-        GameObject.Find("BlinkCooldownManager").GetComponent<BarCooldown>().Activate(blinkCooldown);
+        //GameObject.Find("BlinkCooldownManager").GetComponent<BarCooldown>().Activate(blinkCooldown);
+        GameObject.Find("IconCDManager").GetComponent<BlinkIcon>().Activate(blinkCooldown);
         blinkTimeStamp = Time.time + blinkCooldown; // tells you when blink goes off cooldown
         DestroyTrackingProjectiles();
     }
@@ -274,6 +318,11 @@ public class Character : MonoBehaviour {
         {   
             FlipPause();
         }
+        if(Input.GetKeyDown(quit))
+        {
+            Application.Quit();
+        }
+
         if (!paused)
         {
             if (Input.GetMouseButtonDown(0))
@@ -284,14 +333,29 @@ public class Character : MonoBehaviour {
                         if (hit.collider != null && hit.collider.tag == "AICharacter")
                         {
                             float distance = Vector3.Distance(gameObject.transform.position, hit.transform.position);
-                            //Debug.Log(distance + " to click when attacking");
                             if (distance <= attackRange)
                             {
+                                AttackEnemy(hit.collider.gameObject);
+                                //Debug.Log(distance + " to click when attacking");
                                 //GameObject.Find("AttackCDIcon").GetComponent<CDIcon>().Activate(attackCooldown);
-                                GameObject.Find("AttackCooldownManager").GetComponent<AttackBarCooldown>().Activate(attackCooldown);
-                                CreateProjectile(hit.collider.gameObject);
-                                attackTimeStamp = Time.time + attackCooldown;
                                 //Debug.Log("I'm hitting " + hit.collider.name);
+                            }
+                        }
+                        else
+                        {
+                            if (enemies.Count > 0)
+                            {
+                                AttackClosestEnemy(enemies);
+                                /*
+                                GameObject closestEnemyToPos = GetClosestEnemyToPosition(enemies, pos);
+                                float distanceToPos = Vector3.Distance(gameObject.transform.position, closestEnemyToPos.gameObject.transform.position);
+                                if (distanceToPos <= attackRange)
+                                {
+                                    Debug.Log(distanceToPos);
+                                    AttackEnemy(closestEnemyToPos);
+                                }
+                                */
+
                             }
                         }
                     }
@@ -360,7 +424,7 @@ public class Character : MonoBehaviour {
                 }
                 if (Input.GetKeyDown(attackClosest))
                 {
-                    AttackClosestEnemy(GameObject.Find("SpawnManager").GetComponent<SpawnManager>().enemies);
+                    AttackClosestEnemy(enemies);
                 }
             }
             if (isMelee)

@@ -6,12 +6,20 @@ public class Projectile : MonoBehaviour {
     float speed = 4f;
     GameObject target;
     Vector3 targetPosition;
+    public bool hasTarget;
 
     public void setTarget(GameObject target_)
     {
         target = target_;
-        if (target_ != null)
+        if (target_ == null)
+        {
+            hasTarget = false;
+        }
+        else
+        {
             targetPosition = target_.transform.position;
+            hasTarget = true;
+        }
     }
 /*
     private void OnCollisionEnter2D(Collision2D collision)
@@ -40,6 +48,8 @@ public class Projectile : MonoBehaviour {
         transform.Rotate(Vector3.back *1000 * Time.deltaTime);
         if (target == null)
         {
+            hasTarget = false;
+            //Debug.Log(hasTarget);
             //Turns 'dead' projectiles a different color
             gameObject.GetComponent<Renderer>().material.color = Color.black;
             if (targetPosition == transform.position)

@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4603806189489080}
   - component: {fileID: 212238091252297022}
   - component: {fileID: 60467121757184964}
-  - component: {fileID: 114518888152237012}
   - component: {fileID: 50353498471642614}
+  - component: {fileID: 114394359887400234}
   m_Layer: 0
-  m_Name: AI
+  m_Name: Turret
   m_TagString: AICharacter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,7 +90,7 @@ PolygonCollider2D:
     - - {x: 0, y: 0.5}
       - {x: -0.4330127, y: -0.25000003}
       - {x: 0.43301272, y: -0.24999996}
---- !u!114 &114518888152237012
+--- !u!114 &114394359887400234
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -98,11 +98,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1693744039596076}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd3fead66269e4c4f8ee6b75e2fe73ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 885c7641d567b2c449f1d9602793b2c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attack: {fileID: 114048489566916890, guid: a207ff02bb3d23c448d9258f1c24ca72, type: 2}
   HUDManager: {fileID: 0}
+  marker: {fileID: 0}
+  meleeDamaged: 0
 --- !u!212 &212238091252297022
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -138,7 +140,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9ae35095e7fc99840bdba2621a6614fe, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.13103461, a: 1}
+  m_Color: {r: 0.65517235, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

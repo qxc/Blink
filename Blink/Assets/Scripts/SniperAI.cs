@@ -5,16 +5,6 @@ using UnityEngine;
 public class SniperAI : BasicAI {
 
     // Use this for initialization
-    void Start()
-    {
-        Init();
-    }
-
-    protected void Init()
-    {
-        InitialStats();
-        character = GameObject.Find("Character"); //Sets the character used for projectile tracking
-    }
     /*
     void Update()
     {
@@ -22,10 +12,10 @@ public class SniperAI : BasicAI {
         AttackCharacter();
     }
     */
-    void InitialStats()
+    public override void InitialStats()
     {
         scoreChange = 3;
-        minDistance = 7f;
+        minDistance = 5f;
         attackCooldown = 1.9f;
         life = 1;
         moveSpeed = 1f;

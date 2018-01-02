@@ -119,7 +119,7 @@ cb597852cd86fa7783df9a9bbef61f3c Assembly-CSharp.dll:.HUDManager
 033ebb3742d9e07de7f6939445ee0763 Assembly-CSharp.dll:.MenuManager
 2a2eba19c5573612c22816bdfa75f69f Assembly-CSharp.dll:.Character
 33227001ac3cb2e0369b605ca6cae863 Assembly-CSharp.dll:.CameraManager
-71130dfb33b485cdc3981a343d2e6746 Assembly-CSharp.dll:.AI
+71130dfb33b485cdc3981a343d2e6746 Assembly-CSharp.dll:.BasicAI
 71130dfb33b485cdc3981a343d2e6746 Assembly-CSharp.dll:.LingAI
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
@@ -151,5 +151,9 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 8862210bc61eba8db428b083357ecde6 Assembly-CSharp.dll:.AttackBarCooldown
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.AttackRadius
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Projectile
+857608796bd327c5deb6b63c8836ca8b Assembly-CSharp.dll:.IconCD
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CDIcon
 76241959b86bf6fe536fa39af1e2fc4a Assembly-CSharp.dll:.WallManager
+857608796bd327c5deb6b63c8836ca8b Assembly-CSharp.dll:.BlinkIcon
+857608796bd327c5deb6b63c8836ca8b Assembly-CSharp.dll:.AttackIcon
+71130dfb33b485cdc3981a343d2e6746 Assembly-CSharp.dll:.GruntAI

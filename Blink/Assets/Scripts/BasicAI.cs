@@ -5,10 +5,10 @@ using UnityEngine;
 public class BasicAI : Character {
 
     protected GameObject character;
-    protected float attackDelay = 1f;
+    protected float attackDelay = 1.5f;
     protected float size;
     protected int scoreChange = 1;
-    protected float chargeDelay = 1f;
+    protected float chargeDelay;
 
     protected float minDistance = 1.5f;
 
@@ -16,20 +16,21 @@ public class BasicAI : Character {
     
     
 	// Use this for initialization
-	void Start () {
+	protected void Start () {
         Init(); //Sets the character used for projectile tracking
         //InvokeRepeating("attackCharacter", attackDelay, attackCooldown);
         //InvokeRepeating("DebugTrackingProjectile", 0, 1f);
 
     }
 
-    void Init()
+    protected void Init()
     {
         InitialStats();
         character = GameObject.Find("Character"); //Sets the character used for projectile tracking
+        chargeDelay = Mathf.Min(.5f, attackCooldown / 2);
     }
     //Each AI gets a random set of stats when it's created
-    void InitialStats()
+    public virtual void InitialStats()
     {
         attackCooldown = 4f;
         life = 1;

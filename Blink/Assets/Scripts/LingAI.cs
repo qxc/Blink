@@ -4,25 +4,14 @@ using UnityEngine;
 
 public class LingAI : BasicAI {
 	// Use this for initialization
-    
-	void Start () {
-        Init();
-	}
-
-    protected void Init()
-    {
-        InitialStats();
-        character = GameObject.Find("Character"); //Sets the character used for projectile tracking
-    }
-
-    /*
+        /*
     void Update()
     {
         MoveTowardPlayer();
         AttackCharacter();
     }
     */
-    void InitialStats()
+    public override void InitialStats()
     {
         minDistance = .1f;
         attackCooldown = 1.5f;

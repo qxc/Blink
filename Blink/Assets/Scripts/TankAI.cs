@@ -5,16 +5,7 @@ using UnityEngine;
 public class TankAI : BasicAI {
 
     // Use this for initialization
-    void Start()
-    {
-        Init();
-    }
 
-    protected void Init()
-    {
-        InitialStats();
-        character = GameObject.Find("Character"); //Sets the character used for projectile tracking
-    }
     /*
     void Update()
     {
@@ -22,9 +13,10 @@ public class TankAI : BasicAI {
         AttackCharacter();
     }
     */
-    void InitialStats()
+    public override void InitialStats()
     {
         scoreChange = 4;
+        minDistance = 1f;
         attackCooldown = 2.75f;
         life = 4;
         moveSpeed = .75f;

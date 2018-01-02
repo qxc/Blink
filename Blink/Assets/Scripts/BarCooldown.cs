@@ -21,10 +21,10 @@ public class BarCooldown : MonoBehaviour
         fill.rectTransform.localScale = new Vector3(0, 0, 0);
         bar.rectTransform.localScale = new Vector3(0, 0, 0);
         character = GameObject.Find("Character").GetComponent<Character>();
+        SetPosition();
     }
-
-    // Update is called once per frame
-    protected void Update()
+    
+    protected void SetPosition()
     {
         bar.rectTransform.position = Camera.main.WorldToScreenPoint(character.transform.position + new Vector3(0, verticalOffset, 0));
         fill.rectTransform.position = Camera.main.WorldToScreenPoint(character.transform.position + new Vector3(0, verticalOffset, 0));
