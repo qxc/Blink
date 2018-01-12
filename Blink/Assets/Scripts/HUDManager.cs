@@ -37,6 +37,8 @@ public class HUDManager : MonoBehaviour {
 
     public void LogGame()
     {
+        if(PlayerPrefs.GetInt("HighScore") < currentScore)
+            PlayerPrefs.SetInt("HighScore", currentScore);
         string [] tempScore = score.text.Split(' ');
         string splitScore = tempScore[1];
         string[] tempTime = timeUI.text.Split(' ');

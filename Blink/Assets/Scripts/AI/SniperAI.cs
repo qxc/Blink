@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LingAI : BasicAI {
-	// Use this for initialization
-        /*
+public class SniperAI : BasicAI {
+
+    // Use this for initialization
+    /*
     void Update()
     {
         MoveTowardPlayer();
@@ -13,14 +14,17 @@ public class LingAI : BasicAI {
     */
     public override void InitialStats()
     {
-        minDistance = .1f;
-        attackCooldown = 1.5f;
+        scoreChange = 3;
+        minDistance = 5f;
+        attackCooldown = 1.9f;
         life = 1;
-        moveSpeed = 3f;
-        size = .8f;
-        attackRange = 3f;
+        moveSpeed = 1f;
+        size = 1.25f;
+        attackRange = 10f;
         attackTimeStamp = Time.time + attackDelay;
         SetSize();
+        scoreChange = 5;
+        projectileSpeed = 6f;
     }
     /*
     private void OnTriggerEnter2D(Collider2D collision)

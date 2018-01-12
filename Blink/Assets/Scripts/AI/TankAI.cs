@@ -24,6 +24,8 @@ public class TankAI : BasicAI {
         attackRange = 3.5f;
         attackTimeStamp = Time.time + attackDelay;
         SetSize();
+        scoreChange = 7;
+        projectileSpeed = 3.5f;
     }
     /*
     private void OnTriggerEnter2D(Collider2D collision)

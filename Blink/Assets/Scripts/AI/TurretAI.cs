@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneAI : BasicAI
+public class TurretAI : BasicAI
 {
 
     public override void InitialStats()
     {
-        attackCooldown = 7f;
-        life = 1;
-        moveSpeed = 1.2f;
-        size = .8f;
-        attackRange = 2f;
+        attackCooldown = 1.5f;
+        life = 3;
+        moveSpeed = .2f;
+        size = 2f;
+        attackRange = 9f;
         attackTimeStamp = Time.time + attackDelay;
         SetSize();
-        minDistance = .75f;
+        scoreChange = 4;
     }
 }

@@ -94,7 +94,7 @@ public class SpawnManager : MonoBehaviour {
 
     void SetSpawnPeriod()
     {
-        spawnPeriod = 4f;
+        spawnPeriod = 5f;
         //spawnPeriod = 4f - Mathf.Min(3f, timer / 100f);
     }
 

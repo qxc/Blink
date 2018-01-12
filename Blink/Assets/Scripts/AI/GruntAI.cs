@@ -15,6 +15,8 @@ public class GruntAI : BasicAI {
         attackRange = 4f;
         attackTimeStamp = Time.time + attackDelay;
         SetSize();
+        scoreChange = 2;
+        projectileSpeed = 4.5f;
     }
 
     // Update is called once per frame

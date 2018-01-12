@@ -21,6 +21,11 @@ public class Projectile : MonoBehaviour {
             hasTarget = true;
         }
     }
+
+    public void SetSpeed(float speed_)
+    {
+        speed = speed_;
+    }
 /*
     private void OnCollisionEnter2D(Collision2D collision)
     {

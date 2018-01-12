@@ -19,6 +19,7 @@ public class Character : MonoBehaviour {
     protected float attackRange = 4;
     protected float attackCooldown = .75f;
     protected float attackTimeStamp;
+    protected float projectileSpeed = 4f;
 
     //private float meleeCooldown = .5f;
     private int meleeDamage = 2;
@@ -33,7 +34,7 @@ public class Character : MonoBehaviour {
 
     private float arenaRadius;
 
-    string pause = "space";
+    public static string pause = "space";
     string up = "w";
     string down = "s";
     string left = "a";
@@ -41,7 +42,7 @@ public class Character : MonoBehaviour {
     string melee = "q";
     string attackClosest = "j";
     string blinkKey = "k";
-    string quit = "escape";
+    public static string quit = "escape";
 
 	SpawnManager spawnManager;
     List<GameObject> enemies;
@@ -95,8 +96,10 @@ public class Character : MonoBehaviour {
         //Vector3 position = new Vector3(gameObject.transform.position.x + 1, gameObject.transform.position.y, 0);
         //print(position);
         temp.setTarget(attacked); // Makes the projectiles track attacked
+        temp.SetSpeed(projectileSpeed);
         // Stores the projectile in the attacked unit's list so it can be updated
         attacked.GetComponent<Character>().tracking.Add(temp); 
+
     }
 
     public void DestroyTrackingProjectiles()
@@ -111,16 +114,24 @@ public class Character : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Debug.Log(collision.name);
-        if (collision.tag == "AIProjectile" && !isInvulnerable && collision.gameObject.GetComponent<Projectile>().hasTarget)
+        if (collision.tag == "AIProjectile")
         {
-            Destroy(collision.gameObject);
-            //if (!isMelee)
-            //{
+            if (!isInvulnerable && collision.gameObject.GetComponent<Projectile>().hasTarget)
+            {
+                //Debug.Log("Invulnerable");
+                Destroy(collision.gameObject);
+                //if (!isMelee)
+                //{
                 //Debug.Log("Hit by " + collision.name);
                 life--;
                 if (life <= 0)
                     RestartGame();
-            //}
+                //}
+            }
+            else if (isInvulnerable)
+            {
+                Destroy(collision.gameObject);
+            }
         }
         /*
         Debug.Log("Collided");
@@ -211,6 +222,47 @@ public class Character : MonoBehaviour {
         }
         return closest;
     }
+    Projectile GetClosestProjectile(List<Projectile> projectiles)
+    {
+        Projectile closest = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
+        foreach (Projectile e in projectiles)
+        {
+            if (e != null)
+            {
+                float dist = Vector3.Distance(e.transform.position, currentPos);
+                if (dist < minDist)
+                {
+                    closest = e;
+                    minDist = dist;
+                }
+            }
+        }
+        return closest;
+    }
+
+    public void SlowTimeIfCloseProjectile()
+    {
+        if (tracking.Count > 0)
+        {
+            Projectile proj = GetClosestProjectile(tracking);
+            if (proj != null)
+            {
+                float dist = Vector3.Distance(proj.transform.position, gameObject.transform.position);
+                if (dist < 1.25)
+                {
+                    Time.timeScale = .5f;
+                }
+                else
+                    Time.timeScale = 1f;
+            }
+            else
+                Time.timeScale = 1f;
+
+        }
+    }
+
     GameObject GetClosestEnemyToPosition(List<GameObject> enemies, Vector3 currentPos)
     {
         GameObject closest = null;
@@ -325,6 +377,7 @@ public class Character : MonoBehaviour {
 
         if (!paused)
         {
+            SlowTimeIfCloseProjectile();
             if (Input.GetMouseButtonDown(0))
                 if(attackTimeStamp <= Time.time) {
                     {
