@@ -8,11 +8,11 @@ public class GruntAI : BasicAI {
 
     public override void InitialStats()
     {
-        attackCooldown = 4f;
+        attackCooldown = 3f;
         life = 1;
         moveSpeed = 1f;
         size = 1.1f;
-        attackRange = 4f;
+        attackRange = 4.5f;
         attackTimeStamp = Time.time + attackDelay;
         SetSize();
         scoreChange = 2;

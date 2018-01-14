@@ -5,7 +5,7 @@ using UnityEngine;
 public class BasicAI : Character {
 
     protected GameObject character;
-    protected float attackDelay = 1.5f;
+    protected float attackDelay = 1.25f;
     protected float size;
     protected int scoreChange = 1;
     protected float chargeDelay;
@@ -13,8 +13,7 @@ public class BasicAI : Character {
     protected float minDistance = 1.5f;
 
     public bool meleeDamaged = false;
-    
-    
+
 	// Use this for initialization
 	protected void Start () {
         Init(); //Sets the character used for projectile tracking
@@ -69,7 +68,16 @@ public class BasicAI : Character {
         }
         else
             MoveAwayFromPlayer();
-        AttackCharacter();
+        Attack(character);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+
+        if(collision.gameObject.tag == "Obstacle")
+        {
+            collision.gameObject.GetComponent<Wall>().Damage(.01f);
+        }
     }
 
     float CheckDistanceToPlayer()
@@ -77,21 +85,22 @@ public class BasicAI : Character {
         return Vector2.Distance(gameObject.transform.position, character.transform.position);
     }
 
-    protected void Attack()
+    protected void AttackCharacter()
     {
         CreateProjectile(character);
         gameObject.GetComponent<Renderer>().material.color = Color.white;
     }
 
-    protected void AttackCharacter()
+    protected void Attack(GameObject target)
     {
         if (attackTimeStamp <= Time.time)
         {
-            if (Vector3.Distance(transform.position, character.transform.position) < attackRange)
+            if (Vector3.Distance(transform.position, target.transform.position) < attackRange)
             {
                 attackTimeStamp = Time.time + attackCooldown;
                 ChargeAttack();
-                Invoke("Attack", chargeDelay);
+                if(target.tag == "PlayerCharacter")
+                    Invoke("AttackCharacter", chargeDelay);
             }
         }
     }

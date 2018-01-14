@@ -13,11 +13,11 @@ public class Character : MonoBehaviour {
     public GameObject HUDManager;
 
     private float blinkRange = 3;
-    private float blinkCooldown = .5f;
+    private float blinkCooldown = .6f;
     private float blinkTimeStamp;
 
-    protected float attackRange = 4;
-    protected float attackCooldown = .75f;
+    protected float attackRange = 3;
+    protected float attackCooldown = .9f;
     protected float attackTimeStamp;
     protected float projectileSpeed = 4f;
 

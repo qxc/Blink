@@ -11,20 +11,25 @@ public class SpawnManager : MonoBehaviour {
     public GameObject sniperEnemy;
     public GameObject turretEnemy;
     public List<GameObject> enemies;
-    
+
+    public List<int> spawnEnemies;
+
     float bufferDistance = 4f;
 
     public float timer = 0f;
-    float spawnPeriod = 4f;
+    float spawnPeriod = 5f;
     private float spawnDelay = 2f;
-    int enemyCap = 4;
+    int enemyCap = 5;
     int numEnemyTypes = 0;
 
 	// Use this for initialization
 	void Start ()
     {
-        Invoke("SpawnEnemy", spawnDelay);
+        SetupSpawnEnemies();
+        Invoke("SpawnEnemy2", spawnDelay);
         character = GameObject.Find("Character"); //Sets the character used for spawn tracking
+        InvokeRepeating("SetSpawnEnemies", 10, 10);
+        InvokeRepeating("AddSpawnEnemy", 30, 30);
     }
 
     void Update() {
@@ -37,6 +42,66 @@ public class SpawnManager : MonoBehaviour {
         randomSpawn.Normalize();
         randomSpawn = randomSpawn * bufferDistance;
         return new Vector2(character.transform.position.x, character.transform.position.y) + randomSpawn;
+    }
+
+    public void SetupSpawnEnemies()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            spawnEnemies.Add(0);
+        }
+    }
+
+    public void SpawnEnemy2()
+    {
+        foreach (int x in spawnEnemies)
+        {
+            if (enemies.Count < enemyCap)
+            {
+                Vector2 spawnPosition = RandomPositionNearCharacter();
+                if (x == 0)
+                {
+                    InstantiateEnemy(droneEnemy, spawnPosition);
+                }
+                if (x == 1)
+                {
+                    InstantiateEnemy(gruntEnemy, spawnPosition);
+                }
+                if (x == 2)
+                {
+                    InstantiateEnemy(turretEnemy, spawnPosition);
+                }
+                if (x == 3)
+                {
+                    InstantiateEnemy(lingEnemy, spawnPosition);
+                    InstantiateEnemy(lingEnemy, spawnPosition);
+                }
+                if (x == 4)
+                    InstantiateEnemy(tankEnemy, spawnPosition);
+                if (x == 5)
+                    InstantiateEnemy(sniperEnemy, spawnPosition);
+                //}
+            }
+        }
+        SetEnemyCap();
+        Invoke("SpawnEnemy2", spawnPeriod);
+    }
+
+    public void SetSpawnEnemies()
+    {
+        /*
+         * At various time increments, add or replace numbers in the array. So at any time there's an array 
+         * of numbers which determine which units are spawned. Is there a way to do this ~randomly?
+         * Goal is steady increase in numbers which determine how difficult enemies are spawned
+         */
+
+        int index = Random.Range(0, spawnEnemies.Count);
+        spawnEnemies[index]++;
+    }
+
+    public void AddSpawnEnemy()
+    {
+        spawnEnemies.Add(0);
     }
 
     public void SpawnEnemy()
@@ -100,12 +165,12 @@ public class SpawnManager : MonoBehaviour {
 
     void SetNumEnemyTypes()
     {
-        numEnemyTypes = Mathf.Min(5, Mathf.RoundToInt(timer / 15f));
+        numEnemyTypes = Mathf.Min(5, Mathf.RoundToInt(timer / 20f));
     }
 
     void SetEnemyCap()
     {
-        enemyCap = 4 + Mathf.Min(30, Mathf.RoundToInt(timer / 15)); 
+        enemyCap = 5 + Mathf.Min(30, Mathf.RoundToInt(timer / 30)); 
     }
         
 }
