@@ -5,6 +5,7 @@ using UnityEngine;
 public class BasicAI : Character {
 
     protected GameObject character;
+	protected GameObject explosion;
     protected float attackDelay = 1.25f;
     protected float size;
     protected int scoreChange = 1;
@@ -149,8 +150,18 @@ public class BasicAI : Character {
         //Debug.Log("Thing died");
         GameObject.Find("HUDManager").GetComponent<HUDManager>().ChangeScore(scoreChange);
         GameObject.Find("SpawnManager").GetComponent<SpawnManager>().RemoveEnemy(gameObject);
+
+		Explode();
         Destroy(gameObject);
     }
+
+	protected void Explode() {
+		if ( explosion != null ) {
+			GameObject kaboom = Instantiate(explosion);
+			ParticleSystem.MainModule main = kaboom.GetComponent<ParticleSystem>().main;
+			main.startColor = gameObject.GetComponent<SpriteRenderer>().color;
+		}
+	}
 
     public void Damage(int amount)
     {
