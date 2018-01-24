@@ -150,7 +150,6 @@ public class BasicAI : Character {
         //Debug.Log("Thing died");
         GameObject.Find("HUDManager").GetComponent<HUDManager>().ChangeScore(scoreChange);
         GameObject.Find("SpawnManager").GetComponent<SpawnManager>().RemoveEnemy(gameObject);
-
 		Explode();
         Destroy(gameObject);
     }
