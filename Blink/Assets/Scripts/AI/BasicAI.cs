@@ -5,7 +5,7 @@ using UnityEngine;
 public class BasicAI : Character {
 
     protected GameObject character;
-	protected GameObject explosion;
+	public GameObject explosion;
     protected float attackDelay = 1.25f;
     protected float size;
     protected int scoreChange = 1;
@@ -156,7 +156,7 @@ public class BasicAI : Character {
 
 	protected void Explode() {
 		if ( explosion != null ) {
-			GameObject kaboom = Instantiate(explosion);
+			GameObject kaboom = Instantiate(explosion, transform.position, transform.rotation);
 			ParticleSystem.MainModule main = kaboom.GetComponent<ParticleSystem>().main;
 			main.startColor = gameObject.GetComponent<SpriteRenderer>().color;
 		}

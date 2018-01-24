@@ -104,6 +104,8 @@ MonoBehaviour:
   attack: {fileID: 114048489566916890, guid: a207ff02bb3d23c448d9258f1c24ca72, type: 2}
   HUDManager: {fileID: 0}
   marker: {fileID: 0}
+  explosion: {fileID: 1262431841730608, guid: a3a7508d8aefcf64abe12ab1d2983c2b, type: 2}
+  meleeDamaged: 0
 --- !u!212 &212238091252297022
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -113,7 +115,6 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -129,7 +130,6 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
