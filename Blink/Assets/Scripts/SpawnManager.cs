@@ -11,11 +11,9 @@ public class SpawnManager : MonoBehaviour {
     public GameObject sniperEnemy;
     public GameObject turretEnemy;
     public List<GameObject> enemies;
-
     public List<int> spawnEnemies;
-
     float bufferDistance = 4f;
-
+	private int enemyMaxLevel = 5;
     public float timer = 0f;
     float spawnPeriod = 5f;
     private float spawnDelay = 2f;
@@ -97,6 +95,10 @@ public class SpawnManager : MonoBehaviour {
 
         int index = Random.Range(0, spawnEnemies.Count);
         spawnEnemies[index]++;
+		if ( spawnEnemies[index] > enemyMaxLevel ) {
+			spawnEnemies[index] = enemyMaxLevel;
+			Debug.Log("Tried to go past level 5.");
+		}
     }
 
     public void AddSpawnEnemy()
