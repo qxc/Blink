@@ -97,7 +97,7 @@ public class SpawnManager : MonoBehaviour {
         spawnEnemies[index]++;
 		if ( spawnEnemies[index] > enemyMaxLevel ) {
 			spawnEnemies[index] = enemyMaxLevel;
-			Debug.Log("Tried to go past level 5.");
+			Debug.Log("Tried to go past the max level.");
 		}
     }
 
