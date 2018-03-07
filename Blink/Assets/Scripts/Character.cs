@@ -11,7 +11,8 @@ public class Character : MonoBehaviour {
     bool paused = false;
     protected int life = 1;
     public GameObject HUDManager;
-
+	public GameObject SettingsManager;
+    public Dictionary<string, string> playerSettings;
     private float blinkRange = 3;
     private float blinkCooldown = .6f;
     private float blinkTimeStamp;
@@ -34,15 +35,15 @@ public class Character : MonoBehaviour {
 
     private float arenaRadius;
 
-    public static string pause = "space";
-    string up = "w";
-    string down = "s";
-    string left = "a";
-    string right = "d";
-    string melee = "q";
-    string attackClosest = "j";
-    string blinkKey = "k";
-    public static string quit = "escape";
+    string up;
+    string down;
+    string left;
+    string right;
+    string melee;
+    string attackClosest;
+    string blinkKey;
+    public static string pause;
+    public static string quit;
 
 	SpawnManager spawnManager;
     List<GameObject> enemies;
@@ -65,12 +66,32 @@ public class Character : MonoBehaviour {
     {
         return attackCooldown;
     }
+
+
+    private void setControls(){
+        if ( playerSettings != null ) {
+            print("setting controls!");
+            up = playerSettings["up"];
+            down = playerSettings["down"];
+            left = playerSettings["left"];
+            right = playerSettings["right"];
+            melee = playerSettings["melee"];
+            attackClosest = playerSettings["attackClosest"];
+            blinkKey = playerSettings["blinkKey"];
+            quit = playerSettings["quit"];
+            pause = playerSettings["pause"];
+        }
+    }
+
     // Use this for initialization
     void Start () {
         Time.timeScale = 1.0f;
         arenaRadius = GameObject.Find("Background").GetComponent<SetBackground>().getArenaRadius();
 		spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         enemies = GameObject.Find("SpawnManager").GetComponent<SpawnManager>().enemies;
+        playerSettings = GameObject.Find("SettingsManager").GetComponent<SettingsManager>().playerSettings;
+
+        setControls();
     }
 
     //Pauses if unpaused, unpauses if paused
