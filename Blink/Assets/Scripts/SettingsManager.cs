@@ -31,27 +31,24 @@ public class SettingsManager : MonoBehaviour {
 	}
 
 	public void waitForInput(string whichKey){
+		print("Waiting for input to set " + whichKey);
 		waitingForInputToSetThisKey = whichKey;
 	}
 
 	void OnGUI() {
 		Event e = Event.current;
-		if ( e.isKey && (waitingForInputToSetThisKey != null) ) {
-
+		if ( e.isKey && (waitingForInputToSetThisKey != "") ) {
+			Debug.Log(waitingForInputToSetThisKey);
 			Debug.Log("Detected key code: " + e.keyCode.ToString());
-			playerSettings[waitingForInputToSetThisKey] = e.keyCode.ToString();
-			waitingForInputToSetThisKey = null;
+			playerSettings[waitingForInputToSetThisKey] = e.keyCode.ToString().ToLower();
+			waitingForInputToSetThisKey = "";
 		}
 		
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if ( waitingForInputToSetThisKey != null ) {
 
-
-
-		}
 		
 	}
 }
