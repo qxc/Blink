@@ -19,6 +19,11 @@ public class SettingsManager : MonoBehaviour {
 		playerSettings.Add("quit", "escape");
 		playerSettings.Add("attackClosest", "j");
 		playerSettings.Add("blinkKey", "k");
+		List<string> keys = new List<string>(playerSettings.Keys);
+		foreach (string key in keys){
+			Debug.Log(PlayerPrefs.GetString(key));
+			playerSettings[key] = PlayerPrefs.GetString(key);
+		}
 
 		if (instance == null ) {
 			instance = this;
