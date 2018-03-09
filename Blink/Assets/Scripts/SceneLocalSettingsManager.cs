@@ -14,6 +14,7 @@ public class SceneLocalSettingsManager : MonoBehaviour {
 	public void waitForInput(string whichKey){
 		print("Waiting for input to set " + whichKey);
 		waitingForInputToSetThisKey = whichKey;
+		GameObject.Find(waitingForInputToSetThisKey).GetComponent<Text>().text = "...";
 	}
 
 	// Use this for initialization
