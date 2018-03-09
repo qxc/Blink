@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SceneLocalSettingsManager : MonoBehaviour {
 
@@ -9,10 +10,11 @@ public class SceneLocalSettingsManager : MonoBehaviour {
 	public string waitingForInputToSetThisKey;
 
 
-	public void waitForInput(string which){
-		settingsManager.waitForInput(which);
-	}
 
+	public void waitForInput(string whichKey){
+		print("Waiting for input to set " + whichKey);
+		waitingForInputToSetThisKey = whichKey;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -28,7 +30,8 @@ public class SceneLocalSettingsManager : MonoBehaviour {
 		if ( e.isKey && (waitingForInputToSetThisKey != "") ) {
 			Debug.Log(waitingForInputToSetThisKey);
 			Debug.Log("Detected key code: " + e.keyCode.ToString());
-			playerSettings[waitingForInputToSetThisKey] = e.keyCode.ToString();
+			playerSettings[waitingForInputToSetThisKey] = e.keyCode.ToString().ToLower();
+			GameObject.Find(waitingForInputToSetThisKey).GetComponent<Text>().text = e.keyCode.ToString().ToLower(); 
 			waitingForInputToSetThisKey = "";
 		}
 		

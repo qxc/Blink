@@ -6,7 +6,6 @@ public class SettingsManager : MonoBehaviour {
 
 	public static SettingsManager instance;
 	public Dictionary<string, string> playerSettings;
-	public string waitingForInputToSetThisKey;
 
 	// Use this for initialization
 	void Start () {
@@ -30,21 +29,6 @@ public class SettingsManager : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 	}
 
-	public void waitForInput(string whichKey){
-		print("Waiting for input to set " + whichKey);
-		waitingForInputToSetThisKey = whichKey;
-	}
-
-	void OnGUI() {
-		Event e = Event.current;
-		if ( e.isKey && (waitingForInputToSetThisKey != "") ) {
-			Debug.Log(waitingForInputToSetThisKey);
-			Debug.Log("Detected key code: " + e.keyCode.ToString());
-			playerSettings[waitingForInputToSetThisKey] = e.keyCode.ToString().ToLower();
-			waitingForInputToSetThisKey = "";
-		}
-		
-	}
 
 	// Update is called once per frame
 	void Update () {
