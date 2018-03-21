@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿// A persistent singleton that tracks the player's settings
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

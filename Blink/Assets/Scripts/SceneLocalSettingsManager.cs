@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿// a dumb proxy to connect the persistent settings manager to the settings UI in the settings scene.
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,9 +32,9 @@ public class SceneLocalSettingsManager : MonoBehaviour {
 
 	void OnGUI() {
 		Event e = Event.current;
+		Debug.Log("Detected key code: " + e.keyCode.ToString());
 		if ( e.isKey && (waitingForInputToSetThisKey != "") ) {
 			Debug.Log(waitingForInputToSetThisKey);
-			Debug.Log("Detected key code: " + e.keyCode.ToString());
 			playerSettings[waitingForInputToSetThisKey] = e.keyCode.ToString().ToLower();
 			GameObject.Find(waitingForInputToSetThisKey).GetComponent<Text>().text = e.keyCode.ToString().ToLower(); 
 			waitingForInputToSetThisKey = "";
