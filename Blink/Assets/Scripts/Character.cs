@@ -70,7 +70,6 @@ public class Character : MonoBehaviour {
 
     private void setControls(){
         if ( playerSettings != null ) {
-            print("setting controls!");
             up = playerSettings["up"];
             down = playerSettings["down"];
             left = playerSettings["left"];

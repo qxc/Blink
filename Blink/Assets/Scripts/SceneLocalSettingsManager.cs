@@ -24,9 +24,9 @@ public class SceneLocalSettingsManager : MonoBehaviour {
 		settingsManager = GameObject.Find("SettingsManager").GetComponent<SettingsManager>();
 		playerSettings = settingsManager.playerSettings;
 		foreach (KeyValuePair<string, string> item in playerSettings){
-			Debug.Log(item.Key);
-			Debug.Log(item.Value);
-			GameObject.Find(item.Key).GetComponent<Text>().text = PlayerPrefs.GetString(item.Key); 
+			// Debug.Log(item.Key);
+			// Debug.Log(item.Value);
+			GameObject.Find(item.Key).GetComponent<Text>().text = item.Value; 
 		}
 
 	}
@@ -35,16 +35,14 @@ public class SceneLocalSettingsManager : MonoBehaviour {
 	void OnGUI() {
 
 		Event e = Event.current;
-		if (e.isKey){
-			Debug.Log("Detected key code: " + e.keyCode.ToString());
-		}
+
 		if ( e.isKey && (waitingForInputToSetThisKey != "") ) {
-			Debug.Log(waitingForInputToSetThisKey);
+			// Debug.Log(waitingForInputToSetThisKey);
 			playerSettings[waitingForInputToSetThisKey] = e.keyCode.ToString().ToLower();
 			GameObject.Find(waitingForInputToSetThisKey).GetComponent<Text>().text = e.keyCode.ToString().ToLower(); 
 			waitingForInputToSetThisKey = "";
 			foreach (KeyValuePair<string, string> item in playerSettings){
-				Debug.Log(item.Key + " " + item.Value);
+				// Debug.Log(item.Key + " " + item.Value);
 				PlayerPrefs.SetString(item.Key, item.Value);
 			}
 			PlayerPrefs.Save();

@@ -22,8 +22,10 @@ public class SettingsManager : MonoBehaviour {
 		playerSettings.Add("blinkKey", "k");
 		List<string> keys = new List<string>(playerSettings.Keys);
 		foreach (string key in keys){
-			Debug.Log(PlayerPrefs.GetString(key));
-			playerSettings[key] = PlayerPrefs.GetString(key);
+			if ( PlayerPrefs.GetString(key).Length != 0 ) {
+				playerSettings[key] = PlayerPrefs.GetString(key);
+			}
+
 		}
 
 		if (instance == null ) {
