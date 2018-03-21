@@ -31,8 +31,11 @@ public class SceneLocalSettingsManager : MonoBehaviour {
 
 
 	void OnGUI() {
+
 		Event e = Event.current;
-		Debug.Log("Detected key code: " + e.keyCode.ToString());
+		if (e.isKey){
+			Debug.Log("Detected key code: " + e.keyCode.ToString());
+		}
 		if ( e.isKey && (waitingForInputToSetThisKey != "") ) {
 			Debug.Log(waitingForInputToSetThisKey);
 			playerSettings[waitingForInputToSetThisKey] = e.keyCode.ToString().ToLower();
