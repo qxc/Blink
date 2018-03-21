@@ -17,7 +17,7 @@ public class SettingsManager : MonoBehaviour {
 		playerSettings.Add("right", "d");
 		playerSettings.Add("melee", "q");
 		playerSettings.Add("pause", "space");
-		playerSettings.Add("quit", "escape");
+		playerSettings.Add("menu", "escape");
 		playerSettings.Add("attackClosest", "j");
 		playerSettings.Add("blinkKey", "k");
 		List<string> keys = new List<string>(playerSettings.Keys);

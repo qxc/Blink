@@ -55,7 +55,7 @@ public class MenuManager : MonoBehaviour
         {
             if (Input.GetKey(Character.pause))
                 GameObject.Find("LevelManager").GetComponent<LevelManager>().ChangeScene("Game");
-            if (Input.GetKey(Character.quit))
+            if (Input.GetKey(Character.menu))
                 GameObject.Find("LevelManager").GetComponent<LevelManager>().ChangeScene("Quit");
         }
     }

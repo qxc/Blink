@@ -24,6 +24,8 @@ public class SceneLocalSettingsManager : MonoBehaviour {
 		settingsManager = GameObject.Find("SettingsManager").GetComponent<SettingsManager>();
 		playerSettings = settingsManager.playerSettings;
 		foreach (KeyValuePair<string, string> item in playerSettings){
+			Debug.Log(item.Key);
+			Debug.Log(item.Value);
 			GameObject.Find(item.Key).GetComponent<Text>().text = PlayerPrefs.GetString(item.Key); 
 		}
 

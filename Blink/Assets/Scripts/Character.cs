@@ -43,7 +43,7 @@ public class Character : MonoBehaviour {
     string attackClosest;
     string blinkKey;
     public static string pause;
-    public static string quit;
+    public static string menu;
 
 	SpawnManager spawnManager;
     List<GameObject> enemies;
@@ -78,7 +78,7 @@ public class Character : MonoBehaviour {
             melee = playerSettings["melee"];
             attackClosest = playerSettings["attackClosest"];
             blinkKey = playerSettings["blinkKey"];
-            quit = playerSettings["quit"];
+            menu = playerSettings["menu"];
             pause = playerSettings["pause"];
         }
     }
@@ -391,7 +391,7 @@ public class Character : MonoBehaviour {
         {   
             FlipPause();
         }
-        if(Input.GetKeyDown(quit))
+        if(Input.GetKeyDown(menu))
         {
             Application.Quit();
         }
